@@ -1,0 +1,16 @@
+package wtf.dettex.event.impl.tab;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+import wtf.dettex.event.events.Event;
+
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class TabToggleEvent implements Event {
+    boolean open;
+
+    public TabToggleEvent(boolean open) {
+        this.open = open;
+    }
+}

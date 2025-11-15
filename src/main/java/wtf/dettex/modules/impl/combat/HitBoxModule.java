@@ -1,0 +1,46 @@
+package wtf.dettex.modules.impl.combat;
+
+import antidaunleak.api.annotation.Native;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Box;
+import wtf.dettex.api.repository.friend.FriendUtils;
+import wtf.dettex.modules.api.Module;
+import wtf.dettex.modules.api.ModuleCategory;
+import wtf.dettex.modules.setting.implement.ValueSetting;
+import wtf.dettex.event.EventHandler;
+import wtf.dettex.event.impl.player.BoundingBoxControlEvent;
+
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class HitBoxModule extends Module {
+    ValueSetting xzExpandSetting = new ValueSetting("XZ Expand", "Allows the box to be extended in the XZ axis")
+            .setValue(0.2F).range(0.0F, 3.0F);
+
+    ValueSetting yExpandSetting = new ValueSetting("Y Expand", "Allows the box to be extended in the Y axis")
+            .setValue(0.0F)
+            .range(0.0F, 3.0F);
+
+    public HitBoxModule() {
+        super("HitBox", ModuleCategory.COMBAT);
+        setup(xzExpandSetting, yExpandSetting);
+    }
+
+    @EventHandler
+    @Native(type = Native.Type.VMProtectBeginUltra)
+    public void onBoundingBoxControl(BoundingBoxControlEvent event) {
+        if (event.getEntity() instanceof LivingEntity living) {
+            Box box = event.getBox();
+
+            float xzExpand = xzExpandSetting.getValue();
+            float yExpand = yExpandSetting.getValue();
+            Box changedBox = new Box(box.minX - xzExpand / 2.0f, box.minY - yExpand / 2.0f,
+                    box.minZ - xzExpand / 2.0f, box.maxX + xzExpand / 2.0f,
+                    box.maxY + yExpand / 2.0f, box.maxZ + xzExpand / 2.0f);
+
+            if (living != mc.player && !FriendUtils.isFriend(living)) {
+                event.setBox(changedBox);
+            }
+        }
+    }
+}

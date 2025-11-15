@@ -1,0 +1,108 @@
+package wtf.dettex.modules.impl.combat.killaura.rotation.angle;
+
+import antidaunleak.api.annotation.Native;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import wtf.dettex.common.util.other.StopWatch;
+import wtf.dettex.Main;
+import wtf.dettex.modules.impl.combat.Aura;
+import wtf.dettex.modules.impl.combat.killaura.attack.AttackHandler;
+import wtf.dettex.modules.impl.combat.killaura.rotation.Angle;
+import wtf.dettex.modules.impl.combat.killaura.rotation.AngleUtil;
+
+import java.security.SecureRandom;
+
+public class FTSmoothMode extends AngleSmoothMode {
+    private final float circleSpeed = 2.0F;
+    private final float circleRadius = 2.5F;
+    private final float shakeIntensity = 0.8F;
+    private final float shakeDistance = 20.0F;
+
+    public FTSmoothMode() {
+        super("FuntimeSnap");
+    }
+
+    
+    @Override
+    public Angle limitAngleChange(Angle currentAngle, Angle targetAngle, Vec3d vec3d, Entity entity) {
+        AttackHandler attackHandler = Main.getInstance().getAttackPerpetrator().getAttackHandler();
+        StopWatch attackTimer = attackHandler.getAttackTimer();
+        int count = attackHandler.getCount();
+
+        Angle angleDelta = AngleUtil.calculateDelta(currentAngle, targetAngle);
+        float yawDelta = angleDelta.getYaw(), pitchDelta = angleDelta.getPitch();
+        float rotationDifference = (float) Math.hypot(Math.abs(yawDelta), Math.abs(pitchDelta));
+
+        if (entity != null) {
+            float speed = attackHandler.canAttack(Aura.getInstance().getConfig(), 0) ? 1 : new SecureRandom().nextBoolean() ? 0.4F : 0.2F;
+
+            float lineYaw = (Math.abs(yawDelta / rotationDifference) * 180);
+            float linePitch = (Math.abs(pitchDelta / rotationDifference) * 180);
+
+            float moveYaw = MathHelper.clamp(yawDelta, -lineYaw, lineYaw);
+            float movePitch = MathHelper.clamp(pitchDelta, -linePitch, linePitch);
+
+            Angle moveAngle = new Angle(currentAngle.getYaw(), currentAngle.getPitch());
+            moveAngle.setYaw(MathHelper.lerp(randomLerp(speed, speed + 0.4F), currentAngle.getYaw(), currentAngle.getYaw() + moveYaw));
+            moveAngle.setPitch(MathHelper.lerp(randomLerp(speed, speed + 0.4F), currentAngle.getPitch(), currentAngle.getPitch() + movePitch));
+
+            applyFunTimeOffsets(moveAngle);
+            return moveAngle;
+        } else {
+            int suck = count % 3;
+            float speed = attackTimer.finished(400) ? new SecureRandom().nextBoolean() ? 0.4F : 0.2F : -0.2F;
+            float random = attackTimer.elapsedTime() / 40F + (count % 6);
+
+            Angle randomAngle = switch (suck) {
+                case 0 -> new Angle((float) Math.cos(random), (float) Math.sin(random));
+                case 1 -> new Angle((float) Math.sin(random), (float) Math.cos(random));
+                case 2 -> new Angle((float) Math.sin(random), (float) -Math.cos(random));
+                default -> new Angle((float) -Math.cos(random), (float) Math.sin(random));
+            };
+
+            float yaw = !attackTimer.finished(2000) ? randomLerp(12, 24) * randomAngle.getYaw() : 0;
+            float pitch2 = randomLerp(0, 2) * (float) Math.cos((double) System.currentTimeMillis() / 5000);
+            float pitch = !attackTimer.finished(2000) ? randomLerp(2, 6) * randomAngle.getPitch() + pitch2 : 0;
+
+            float lineYaw = (Math.abs(yawDelta / rotationDifference) * 180);
+            float linePitch = (Math.abs(pitchDelta / rotationDifference) * 180);
+
+            float moveYaw = MathHelper.clamp(yawDelta, -lineYaw, lineYaw);
+            float movePitch = MathHelper.clamp(pitchDelta, -linePitch, linePitch);
+
+            Angle moveAngle = new Angle(currentAngle.getYaw(), currentAngle.getPitch());
+            moveAngle.setYaw(MathHelper.lerp(Math.clamp(randomLerp(speed, speed + 0.4F), 0, 1), currentAngle.getYaw(), currentAngle.getYaw() + moveYaw) + yaw);
+            moveAngle.setPitch(MathHelper.lerp(Math.clamp(randomLerp(speed, speed + 0.4F), 0, 1), currentAngle.getPitch(), currentAngle.getPitch() + movePitch) + pitch);
+
+            applyFunTimeOffsets(moveAngle);
+            return moveAngle;
+        }
+    }
+
+    @Override
+    public Vec3d randomValue() {
+        return new Vec3d(0.06, 0.1, 0.06);
+    }
+
+    private float randomLerp(float min, float max) {
+        return MathHelper.lerp(new SecureRandom().nextFloat(), min, max);
+    }
+
+    private void applyFunTimeOffsets(Angle moveAngle) {
+        if (mc.player == null) return;
+
+        float partialTicks = tickCounter != null ? tickCounter.getTickDelta(false) : 0.0F;
+        float age = mc.player.age + partialTicks;
+
+        float circlePhase = age * circleSpeed;
+        float circleYawOffset = MathHelper.sin(circlePhase) * circleRadius;
+        float circlePitchOffset = MathHelper.cos(circlePhase) * circleRadius * 0.5F;
+
+        float shakePhase = age * shakeIntensity;
+        float shakeOffset = MathHelper.sin(shakePhase) * shakeDistance;
+
+        moveAngle.setYaw(moveAngle.getYaw() + circleYawOffset + shakeOffset);
+        moveAngle.setPitch(MathHelper.clamp(moveAngle.getPitch() + circlePitchOffset, -90.0F, 90.0F));
+    }
+}

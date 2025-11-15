@@ -1,0 +1,30 @@
+{
+  "accessWidener": "matebal.accesswidener",
+  "schemaVersion": 1,
+  "id": "dettex",
+  "version": "1.0",
+  "name": "Dettex",
+  "description": "Minecraft Modification",
+  "authors": [
+    "PixikDev"
+  ],
+  "contact": {
+    "website": "https://github.com/PixikDev",
+    "repo": "none"
+  },
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "wtf.dettex.Main"
+    ]
+  },
+  "mixins": [
+    "mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.8",
+    "fabric": "*",
+    "minecraft": "~1.21.4"
+  }
+}

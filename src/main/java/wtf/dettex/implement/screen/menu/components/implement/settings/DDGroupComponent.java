@@ -1,0 +1,68 @@
+package wtf.dettex.implement.screen.menu.components.implement.settings;
+
+import net.minecraft.client.gui.DrawContext;
+import wtf.dettex.modules.setting.implement.GroupSetting;
+import wtf.dettex.api.system.font.Fonts;
+import wtf.dettex.implement.screen.menu.components.implement.other.CheckComponent;
+import wtf.dettex.implement.screen.menu.components.implement.other.SettingComponent;
+import wtf.dettex.implement.screen.menu.components.implement.window.AbstractWindow;
+import wtf.dettex.implement.screen.menu.components.implement.window.implement.settings.group.GroupWindow;
+
+import static wtf.dettex.api.system.font.Fonts.Type.BOLD;
+
+public class DDGroupComponent extends AbstractSettingComponent {
+    private final CheckComponent checkComponent = new CheckComponent();
+    private final SettingComponent settingComponent = new SettingComponent();
+
+    private final GroupSetting setting;
+
+    public DDGroupComponent(GroupSetting setting) {
+        super(setting);
+        this.setting = setting;
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        height = 20;
+
+        Fonts.getSize(14, BOLD).drawString(context.getMatrices(), setting.getName(), x + 6, y + 6, 0xFFD4D6E1);
+
+        ((CheckComponent) checkComponent.position(x + width - 16, y + 6.5F))
+                .setRunnable(() -> setting.setValue(!setting.isValue()))
+                .setState(setting.isValue())
+                .render(context, mouseX, mouseY, delta);
+
+        ((SettingComponent) settingComponent.position(x + width - 28, y + 7))
+                .setRunnable(() -> spawnWindow(mouseX, mouseY))
+                .render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        checkComponent.mouseClicked(mouseX, mouseY, button);
+        settingComponent.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private void spawnWindow(int mouseX, int mouseY) {
+        AbstractWindow existingWindow = null;
+
+        for (AbstractWindow window : windowManager.getWindows()) {
+            if (window instanceof GroupWindow && ((GroupWindow) window).getSetting() == setting) {
+                existingWindow = window;
+                break;
+            }
+        }
+
+        if (existingWindow != null) {
+            windowManager.delete(existingWindow);
+        } else {
+            AbstractWindow groupWindow = new GroupWindow(setting)
+                    .position(mouseX + 5, mouseY + 5)
+                    .size(137, 23)
+                    .draggable(false);
+
+            windowManager.add(groupWindow);
+        }
+    }
+}

@@ -1,0 +1,104 @@
+package wtf.dettex.implement.screen.menu.components.implement.settings;
+
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
+import wtf.dettex.modules.setting.implement.ValueSetting;
+import wtf.dettex.api.system.font.Fonts;
+import wtf.dettex.api.system.shape.ShapeProperties;
+import wtf.dettex.common.util.color.ColorUtil;
+import wtf.dettex.common.util.math.MathUtil;
+
+import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static wtf.dettex.api.system.font.Fonts.Type.BOLD;
+
+public class ValueComponent extends AbstractSettingComponent {
+    public static final int SLIDER_WIDTH = 45;
+
+    private final ValueSetting setting;
+
+    private boolean dragging;
+    private double animation;
+
+    public ValueComponent(ValueSetting setting) {
+        super(setting);
+        this.setting = setting;
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        MatrixStack matrix = context.getMatrices();
+
+        // Compact height: title + slider
+        height = 28;
+
+        String value = String.valueOf(setting.getValue());
+
+        // Title on top
+        Fonts.getSize(14, BOLD).drawString(matrix, setting.getName(), (int) (x + 6), (int) (y + 6), 0xFFD4D6E1);
+        // Value on top-right
+        Fonts.getSize(12, BOLD).drawString(matrix, value, (int) (x + width - 6 - Fonts.getSize(12).getStringWidth(value)), (int) (y + 7), ColorUtil.getClientColor());
+
+        changeValue(getDifference(mouseX, matrix));
+    }
+
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        float trackX = x + 3;
+        float trackW = width - 6;
+        dragging = MathUtil.isHovered(mouseX, mouseY, trackX, y + 18, trackW, 4) && button == 0;
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        dragging = false;
+        return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    private float getDifference(int mouseX, MatrixStack matrix) {
+        float trackX = x + 6;
+        float trackW = width - 12;
+
+        float percentValue = trackW * (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
+        float difference = MathHelper.clamp(mouseX - trackX, 0, trackW);
+
+        animation = MathUtil.interpolate(animation, percentValue);
+
+        // Track
+        blurGlass.render(ShapeProperties.create(matrix, trackX, y + 20, trackW, 1)
+                .color(0x2D2E414D).build());
+
+        // Fill
+        blurGlass.render(ShapeProperties.create(matrix, trackX, y + 20, (float) animation, 1)
+                .color(ColorUtil.getClientColor(), ColorUtil.getClientColor(), new Color(ColorUtil.getClientColor()).darker().getRGB(), new Color(ColorUtil.getClientColor()).darker().getRGB()).build());
+
+        // Knob
+        float v = MathHelper.clamp(trackX + (float) animation, trackX, trackX + trackW);
+        blurGlass.render(ShapeProperties.create(matrix, v - 2.5F, y + 18.5F, 5, 5)
+                .round(2.5F).color(ColorUtil.getMainGuiColor()).build());
+
+        blurGlass.render(ShapeProperties.create(matrix, v - 1.8F, y + 19.2F, 3.6F, 3.6F)
+                .round(1.8F).color(ColorUtil.getClientColor()).build());
+
+        return difference;
+    }
+
+
+    private void changeValue(float difference) {
+        float trackW = width - 12;
+        BigDecimal bd = BigDecimal.valueOf((difference / trackW) * (setting.getMax() - setting.getMin()) + setting.getMin())
+                .setScale(2, RoundingMode.HALF_UP);
+
+        if (dragging) {
+            float value = difference == 0 ? setting.getMin() : bd.floatValue();
+            if (setting.isInteger()) value = (int) value;
+            setting.setValue(value);
+        }
+    }
+}
