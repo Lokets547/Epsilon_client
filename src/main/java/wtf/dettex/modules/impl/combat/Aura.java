@@ -88,7 +88,7 @@ public class Aura extends Module {
 //    GroupSetting aiGroup = new GroupSetting("AI", "AI related settings").settings(aiTraining).setValue(false);
 
     SelectSetting sprintResetMode = new SelectSetting("Reset Type", "Selects the sprint reset type")
-            .value("Normal", "Legit").selected("Normal");
+            .value("Rage", "Normal", "Legit").selected("Normal");
 
     GroupSetting sprintReset = new GroupSetting("Sprint Reset", "Resets the sprint before attack")
             .settings(sprintResetMode).setValue(true);
@@ -115,7 +115,7 @@ public class Aura extends Module {
     }
 
     @Override
-     
+
     public void deactivate() {
         targetSelector.releaseTarget();
         target = null;
@@ -200,7 +200,7 @@ public class Aura extends Module {
             }
         }
     }
-    
+
     private LivingEntity updateTarget() {
         TargetSelector.EntityFilter filter = new TargetSelector.EntityFilter(targetType.getSelected());
         float rotationRange = maxDistance.getValue() + extraDistance.getValue();
@@ -226,7 +226,7 @@ public class Aura extends Module {
 //                }
 //            }
             case "FuntimeTest" -> {
-                    controller.rotateTo(rotation, target, 20, rotationConfig, TaskPriority.HIGH_IMPORTANCE_1, this);
+                controller.rotateTo(rotation, target, 20, rotationConfig, TaskPriority.HIGH_IMPORTANCE_1, this);
             }
             case "FuntimeSnap" -> {
                 if (attackHandler.canAttack(config, 2)) {

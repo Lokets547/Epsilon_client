@@ -45,8 +45,30 @@ public class AttackHandler implements QuickImports {
     private final ClickScheduler clickScheduler = new ClickScheduler();
     private final StopWatch legitSprintTimer = new StopWatch();
     private int count = 0;
+    private boolean sprintResetActive = false;
+    private int sprintResetTicks = 2;
 
     void tick() {
+        if (mc.player == null) return;
+
+        if (sprintResetActive && Aura.getInstance().getSprintReset().isValue()) {
+            // Принудительно отключаем спринт каждый тик пока активен сброс
+            if (mc.player.isSprinting()) {
+                mc.player.setSprinting(false);
+            }
+
+            int msDelay = sprintResetTicks * 50;
+            if (legitSprintTimer.finished(msDelay)) {
+                if (AutoSprint.getInstance().isState()) {
+                    mc.player.setSprinting(true);
+                }
+                sprintResetActive = false;
+            }
+        }
+    }
+
+    void reset() {
+        sprintResetActive = false;
     }
 
     void onPacket(PacketEvent e) {
@@ -62,18 +84,14 @@ public class AttackHandler implements QuickImports {
         }
     }
 
-    
+
     void handleAttack(AttackPerpetrator.AttackPerpetratorConfigurable config) {
         if (canAttack(config, 1)) preAttackEntity(config);
 
         boolean blockDueToSprint;
         if (Aura.getInstance().getSprintReset().isValue()) {
-            String sprintResetMode = Aura.getInstance().getSprintResetMode().getSelected();
-            if ("Normal".equals(sprintResetMode) || "Legit".equals(sprintResetMode)) {
-                blockDueToSprint = mc.player.isSprinting() && !mc.player.isGliding() && !mc.player.isTouchingWater();
-            } else {
-                blockDueToSprint = isSprinting();
-            }
+            // Если Sprint Reset активен и сброс уже произошёл, не блокируем атаку
+            blockDueToSprint = !sprintResetActive && mc.player.isSprinting() && !mc.player.isGliding() && !mc.player.isTouchingWater();
         } else {
             blockDueToSprint = isSprinting();
         }
@@ -90,50 +108,34 @@ public class AttackHandler implements QuickImports {
         }
 
         if (!mc.player.isSwimming() && Aura.getInstance().getSprintReset().isValue()) {
-            String sprintResetMode = Aura.getInstance().getSprintResetMode().getSelected();
             boolean wasSprinting = mc.player.isSprinting();
             if (wasSprinting) {
-                switch (sprintResetMode) {
-                    case "Client":
-                        AutoSprint.getInstance().tickStop = MathUtil.getRandom(1, 2);
-                        mc.player.setSprinting(false);
-                        break;
-                    case "Normal":
-                        mc.player.setSprinting(false);
-                        break;
-                    case "Legit":
-                        mc.player.setSprinting(false);
-                        legitSprintTimer.reset();
-                        break;
+                String sprintResetMode = Aura.getInstance().getSprintResetMode().getSelected();
+                sprintResetTicks = switch (sprintResetMode) {
+                    case "Rage" -> 1;
+                    case "Normal" -> 2;
+                    case "Legit" -> 3;
+                    default -> 2;
+                };
+
+                // Синхронизация с AutoSprint - блокируем автоспринт на нужное количество тиков
+                if (AutoSprint.getInstance().isState()) {
+                    AutoSprint.getInstance().tickStop = sprintResetTicks;
                 }
+
+                mc.player.setSprinting(false);
+                legitSprintTimer.reset();
+                sprintResetActive = true;
             }
         }
     }
 
-    
+
     void attackEntity(AttackPerpetrator.AttackPerpetratorConfigurable config) {
-        boolean wasSprinting = mc.player.isSprinting();
         attack(config);
         breakShield(config);
         attackTimer.reset();
         count++;
-
-        if (!mc.player.isSwimming() && Aura.getInstance().getSprintReset().isValue()) {
-            String sprintResetMode = Aura.getInstance().getSprintResetMode().getSelected();
-            if (wasSprinting) {
-                switch (sprintResetMode) {
-                    case "Normal":
-                        mc.player.setSprinting(true);
-                        break;
-                    case "Legit":
-                        if (legitSprintTimer.finished(MathUtil.getRandom(50, 150))) {
-                            mc.player.setSprinting(true);
-                        }
-                        break;
-
-                }
-            }
-        }
     }
 
     private void breakShield(AttackPerpetrator.AttackPerpetratorConfigurable config) {
