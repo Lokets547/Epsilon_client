@@ -62,7 +62,7 @@ public class Aura extends Module {
             .value("Free", "Focused", "Targeted").selected("Free");
 
     SelectSetting aimMode = new SelectSetting("Rotation Type", "Allows you to select the rotation type")
-            .value("FuntimeSmooth", "FuntimeSnap", "Snap", "Universal", "ReallyWorld", "SpookyTime", "HvH", "FuntimeTest"
+            .value("FuntimeSmooth", "FuntimeSnap", "Snap", "Universal", "ReallyWorld", "SpookyTime", "HvH", "FuntimeTest", "Matrix|Bypass"
                     //, "AI"
             ).selected("Snap");
 
@@ -234,7 +234,7 @@ public class Aura extends Module {
                     controller.rotateTo(rotation, target, 20, rotationConfig, TaskPriority.HIGH_IMPORTANCE_1, this);
                 }
             }
-            case "Universal", "HvH", "Trax", "Manda" -> {
+            case "Universal", "HvH", "Trax", "Manda", "Matrix|Bypass" -> {
                 controller.rotateTo(rotation, target, 1, rotationConfig, TaskPriority.HIGH_IMPORTANCE_1, this);
             }
             case "ReallyWorld"  , "FuntimeSmooth" -> {
@@ -273,6 +273,7 @@ public class Aura extends Module {
             case "Trax" -> new TraxSmoothMode();
             case "Manda" -> new MandaSmoothMode();
             case "FuntimeTest" -> new FTSmoothMode();
+            case "Matrix|Bypass" -> new MatrixBypassSmoothMode();
             default -> new ReallyWorldSmoothMode();
         };
     }

@@ -108,7 +108,6 @@ public class ModuleRepository {
                 new Spider(),
                 new ServerRPSpoofer(),
                 new JumpCircle(),
-                new ZakoMoment(),
                 new WaterLeave(),
                 new SPDuelsJoiner(),
                 new NoFall(),
