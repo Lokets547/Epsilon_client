@@ -10,6 +10,7 @@ import wtf.dettex.common.QuickImports;
 import wtf.dettex.common.util.entity.PlayerIntersectionUtil;
 import wtf.dettex.common.util.other.StopWatch;
 import wtf.dettex.event.impl.packet.PacketEvent;
+import wtf.dettex.modules.setting.implement.SelectSetting;
 
 @Getter
 @UtilityClass
@@ -22,6 +23,10 @@ public class ServerUtil implements QuickImports {
     public int anarchy;
     @Getter
     public boolean pvpEnd;
+    
+    public static SelectSetting manualServerSelection = new SelectSetting("Manual Server Selection", "Manually select server type")
+            .value("FunTime", "SpookyTime", "CopyTime", "HolyWorld", "ReallyWorld")
+            .selected("FunTime");
 
     public void tick() {
         anarchy = getAnarchyMode();
@@ -100,11 +105,31 @@ public class ServerUtil implements QuickImports {
         return mc.world.getRegistryKey().getValue().getPath();
     }
 
-    public boolean isCopyTime() {return server.equals("CopyTime") || server.equals("SpookyTime") || server.equals("FunTime");}
-    public boolean isFunTime() {return server.equals("FunTime");}
-    public boolean isReallyWorld() {return server.equals("ReallyWorld");}
-    public boolean isHolyWorld() {return server.equals("HolyWorld");}
-    public boolean isVanilla() {return server.equals("Vanilla");}
-    public boolean isAresMine() {return server.equals("AresMine");}
-    public boolean isStickShield() {return server.equals("StickShield");}
+    public boolean isCopyTime() {
+        return manualServerSelection.isSelected("CopyTime") || manualServerSelection.isSelected("SpookyTime") || manualServerSelection.isSelected("FunTime");
+    }
+    
+    public boolean isFunTime() {
+        return manualServerSelection.isSelected("FunTime");
+    }
+    
+    public boolean isReallyWorld() {
+        return manualServerSelection.isSelected("ReallyWorld");
+    }
+    
+    public boolean isHolyWorld() {
+        return manualServerSelection.isSelected("HolyWorld");
+    }
+    
+    public boolean isVanilla() {
+        return false;
+    }
+    
+    public boolean isAresMine() {
+        return false;
+    }
+    
+    public boolean isStickShield() {
+        return false;
+    }
 }

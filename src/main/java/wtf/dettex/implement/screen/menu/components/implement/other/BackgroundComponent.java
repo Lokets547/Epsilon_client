@@ -18,8 +18,8 @@ public class BackgroundComponent extends AbstractComponent {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         MatrixStack matrix = context.getMatrices();
 
-        blurGlass.render(ShapeProperties.create(matrix, x, y, width, height).round(6).softness(1).thickness(2).quality(50)
-                .outlineColor(ColorUtil.getOutline()).color(ColorUtil.getRect(0.7F)).build());
+        blurGlass.render(ShapeProperties.create(matrix, x, y, width, height).round(12).softness(1).thickness(1).quality(50)
+                .outlineColor(ColorUtil.BLACK).color(ColorUtil.getRect(0.3F)).build());
 
         blurGlass.render(ShapeProperties.create(context.getMatrices(), x + 85, y, 0.5F, height)
                 .color(ColorUtil.getOutline(0.5F, 1)).build());

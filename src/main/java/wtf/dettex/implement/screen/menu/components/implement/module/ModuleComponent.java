@@ -63,14 +63,12 @@ public class ModuleComponent extends AbstractComponent {
         float expandedHeight = getFullSettingsHeight();
         height = HEADER_HEIGHT + expandedHeight * animationValue;
 
-        blurGlass.render(ShapeProperties.create(context.getMatrices(), x, y, width, HEADER_HEIGHT)
-                .round(2)
-                .color(ColorUtil.getRect(0.5F))
-                .build());
-
+        // Darker background for enabled modules - render once for uniform fill
+        float headerAlpha = module.isState() ? 0.5F : 0.3F;
+        
         blurGlass.render(ShapeProperties.create(context.getMatrices(), x, y, width, height)
                 .round(3)
-                .color(ColorUtil.getRect(0.5F))
+                .color(ColorUtil.getRect(headerAlpha))
                 .build());
 
         bindAnimation.setDirection(binding ? Direction.FORWARDS : Direction.BACKWARDS);
@@ -83,7 +81,8 @@ public class ModuleComponent extends AbstractComponent {
 
         float baseCenter = x + width / 2F;
         float textY = y + 7.5F;
-        int activeColor = module.isState() ? ColorUtil.getClientColor() : 0xFFD4D6E1;
+        // Text always white
+        int activeColor = 0xFFD4D6E1;
 
         float defaultWidth = Fonts.getSize(14, Fonts.Type.BOLD).getStringWidth(defaultName);
         float defaultX = baseCenter - defaultWidth / 2F + bindProgress * 1.5F;

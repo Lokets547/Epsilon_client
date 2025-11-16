@@ -100,7 +100,7 @@ public class MenuScreen extends Screen implements QuickImports {
 
         x = window.getScaledWidth() / 2 - 318;
         y = window.getScaledHeight() / 2 - 160;
-        // Width to accommodate 5 panels of 120px each + 6px gaps and margins
+        // Width to accommodate 5 panels of 108px each + 6px gaps and margins
         width = 636;
         // Height to accommodate 280px panels + top/bottom margins
         height = 320;
@@ -110,7 +110,7 @@ public class MenuScreen extends Screen implements QuickImports {
             float spacing = 6F;
             for (DropdownCategoryComponent component : dropdownComponents) {
                 component.position(x + 6 + offsetX, y + 12);
-                component.size(128F, component.height);
+                component.size(115F, component.height);
                 offsetX += component.width + spacing;
             }
         } else if (panelContainer != null) {

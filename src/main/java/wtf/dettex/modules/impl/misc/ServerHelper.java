@@ -47,6 +47,7 @@ import wtf.dettex.modules.api.ModuleCategory;
 import wtf.dettex.modules.impl.combat.killaura.rotation.*;
 import wtf.dettex.modules.setting.implement.BindSetting;
 import wtf.dettex.modules.setting.implement.BooleanSetting;
+import wtf.dettex.modules.setting.implement.SelectSetting;
 import wtf.dettex.api.repository.friend.FriendUtils;
 import wtf.dettex.api.system.font.FontRenderer;
 import wtf.dettex.api.system.font.Fonts;
@@ -106,6 +107,7 @@ public class ServerHelper extends Module {
     
 
     public void initialize() {
+        setup(ServerUtil.manualServerSelection);
         keyBindings.add(new KeyBind(Items.FIREWORK_STAR, new BindSetting("Anti Fly", "Anti Fly Key").visible(ServerUtil::isReallyWorld), 0));
         keyBindings.add(new KeyBind(Items.FLOWER_BANNER_PATTERN, new BindSetting("Experience Scroll", "Experience Scroll Key").visible(ServerUtil::isReallyWorld), 0));
         keyBindings.add(new KeyBind(Items.PRISMARINE_SHARD, new BindSetting("Explosive Trap", "Explosive Trap Key").visible(ServerUtil::isHolyWorld), 5));

@@ -48,11 +48,14 @@ public class StaffList extends AbstractDraggable {
             String prefix = displayName.getString().replace(profile.getName(), "");
             if (prefix.length() < 2) continue;
 
+            // Remove all color codes (§ followed by any character)
+            String cleanPrefix = prefix.replaceAll("§.", "");
+            
             PlayerListEntry player = new PlayerListEntry(profile, false);
             player.setDisplayName(displayName);
 
             if (list.keySet().stream().noneMatch(p -> Objects.equals(p.getDisplayName(), player.getDisplayName()))) {
-                staffPrefix.stream().filter(s -> prefix.toLowerCase().contains(s)).findFirst().ifPresent(s -> {
+                staffPrefix.stream().filter(s -> cleanPrefix.toLowerCase().contains(s)).findFirst().ifPresent(s -> {
                     list.put(player, new DecelerateAnimation().setMs(150).setValue(1));
                     if (Hud.getInstance().notificationSettings.isSelected("Staff Join")) {
                         Notifications.getInstance().addList(Text.empty().append(player.getDisplayName()).append(" - Зашел на сервер!"),5000);

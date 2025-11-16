@@ -36,7 +36,7 @@ public class CategoryContainerComponent extends AbstractComponent {
             component.x = x + 6 + offsetX;
             // Raise panels slightly and apply global scroll
             component.y = (float) (y + 12 + globalScroll);
-            component.width = 120;
+            component.width = 108;
             // Height is dynamic; component will compute based on its modules
             component.render(context, mouseX, mouseY, delta);
             offsetX += component.width + 6;

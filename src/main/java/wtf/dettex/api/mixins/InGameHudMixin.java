@@ -64,6 +64,12 @@ public abstract class InGameHudMixin implements QuickImports {
 
     @Inject(method = "renderCrosshair", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/hud/InGameHud;CROSSHAIR_TEXTURE:Lnet/minecraft/util/Identifier;"), cancellable = true)
     public void renderCrosshairHook(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        // Hide crosshair when GUI is open
+        if (client.currentScreen instanceof wtf.dettex.implement.screen.menu.MenuScreen) {
+            ci.cancel();
+            return;
+        }
+        
         CrossHair crossHair = CrossHair.getInstance();
         if (crossHair.isState()) {
             crossHair.onRenderCrossHair();

@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum ModuleCategory {
     COMBAT("Combat"),
     MOVEMENT("Movement"),
-    PLAYER("Player"),
     RENDER("Render"),
+    PLAYER("Player"),
     MISC("Misc");
 
     final String readableName;

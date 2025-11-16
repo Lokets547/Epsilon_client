@@ -20,8 +20,13 @@ public class DropdownCategoryComponent extends CategoryComponent {
     private static final float BOTTOM_PADDING = 3.0F;
     private static final double SCROLL_SMOOTHING = 0.18;
     private static final double SCROLL_STEP = 5.0;
+    private static final float SCROLLBAR_WIDTH = 3.0F;
+    private static final float SCROLLBAR_PADDING = 2.0F;
 
     private double maxScroll = 0.0;
+    private boolean draggingScrollbar = false;
+    private double dragStartY = 0.0;
+    private double scrollAtDragStart = 0.0;
 
     public DropdownCategoryComponent(ModuleCategory category) {
         super(category);
@@ -43,10 +48,10 @@ public class DropdownCategoryComponent extends CategoryComponent {
 
         // Panel background
         blurGlass.render(ShapeProperties.create(matrices, x, y, width, height)
-                .round(6)
-                .thickness(2)
-                .outlineColor(ColorUtil.getOutline())
-                .color(ColorUtil.getRect(0.5F))
+                .round(12)
+                .thickness(1)
+                .outlineColor(ColorUtil.BLACK)
+                .color(ColorUtil.getRect(0.3F))
                 .build());
 
         // Category title centered at top
@@ -60,7 +65,7 @@ public class DropdownCategoryComponent extends CategoryComponent {
         // Content area with clipping
         float listX = x + CONTENT_HORIZONTAL_PADDING;
         float listY = y + HEADER_HEIGHT;
-        float listW = width - CONTENT_HORIZONTAL_PADDING * 2.0F;
+        float listW = width - CONTENT_HORIZONTAL_PADDING * 2.0F - SCROLLBAR_WIDTH - SCROLLBAR_PADDING;
         float listH = Math.max(0.0F, viewportHeight - BOTTOM_PADDING);
 
         if (listH <= 0.0F) {
@@ -89,6 +94,22 @@ public class DropdownCategoryComponent extends CategoryComponent {
             offset += componentHeight + CONTENT_VERTICAL_PADDING;
         }
         scissorManager.pop();
+
+        // Draw scrollbar if needed
+        if (maxScroll > 0) {
+            float scrollbarX = x + width - SCROLLBAR_WIDTH - SCROLLBAR_PADDING - 1;
+            float scrollbarY = listY + SCROLLBAR_PADDING;
+            float scrollbarHeight = listH - SCROLLBAR_PADDING * 2;
+            
+            float thumbHeight = Math.max(20.0F, scrollbarHeight * (viewportHeight / contentHeight));
+            float thumbY = scrollbarY + (float)((scrollbarHeight - thumbHeight) * (smoothedScroll / maxScroll));
+            
+            // Scrollbar thumb
+            blurGlass.render(ShapeProperties.create(matrices, scrollbarX, thumbY, SCROLLBAR_WIDTH, thumbHeight)
+                    .round(SCROLLBAR_WIDTH / 2)
+                    .color(ColorUtil.getClientColor(0.6F))
+                    .build());
+        }
     }
 
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
@@ -111,6 +132,39 @@ public class DropdownCategoryComponent extends CategoryComponent {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        // Check if click is within the panel bounds
+        if (!isHover(mouseX, mouseY)) {
+            return false;
+        }
+        
+        if (button == 0 && maxScroll > 0) {
+            float listY = y + HEADER_HEIGHT;
+            float viewportHeight = getViewportHeight();
+            float contentHeight = calculateContentHeight();
+            float listH = Math.max(0.0F, viewportHeight - BOTTOM_PADDING);
+            
+            float scrollbarX = x + width - SCROLLBAR_WIDTH - SCROLLBAR_PADDING - 1;
+            float scrollbarY = listY + SCROLLBAR_PADDING;
+            float scrollbarHeight = listH - SCROLLBAR_PADDING * 2;
+            
+            float thumbHeight = Math.max(20.0F, scrollbarHeight * (viewportHeight / contentHeight));
+            float thumbY = scrollbarY + (float)((scrollbarHeight - thumbHeight) * (smoothedScroll / maxScroll));
+            
+            if (MathUtil.isHovered(mouseX, mouseY, scrollbarX, thumbY, SCROLLBAR_WIDTH, thumbHeight)) {
+                draggingScrollbar = true;
+                dragStartY = mouseY;
+                scrollAtDragStart = scroll;
+                return true;
+            }
+        }
+        
+        // Check if click is within the content viewport (not in header area)
+        float listY = y + HEADER_HEIGHT;
+        float viewportHeight = getViewportHeight();
+        if (mouseY < listY || mouseY > listY + viewportHeight - BOTTOM_PADDING) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+        
         layoutModulesForInteraction();
         for (ModuleComponent component : moduleComponents) {
             if (component.mouseClicked(mouseX, mouseY, button)) {
@@ -122,6 +176,17 @@ public class DropdownCategoryComponent extends CategoryComponent {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (button == 0) {
+            draggingScrollbar = false;
+        }
+        
+        // Check if release is within the content viewport
+        float listY = y + HEADER_HEIGHT;
+        float viewportHeight = getViewportHeight();
+        if (mouseY < listY || mouseY > listY + viewportHeight - BOTTOM_PADDING) {
+            return super.mouseReleased(mouseX, mouseY, button);
+        }
+        
         layoutModulesForInteraction();
         for (ModuleComponent component : moduleComponents) {
             if (component.mouseReleased(mouseX, mouseY, button)) {
@@ -133,6 +198,23 @@ public class DropdownCategoryComponent extends CategoryComponent {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+        if (draggingScrollbar && button == 0) {
+            float listY = y + HEADER_HEIGHT;
+            float viewportHeight = getViewportHeight();
+            float contentHeight = calculateContentHeight();
+            float listH = Math.max(0.0F, viewportHeight - BOTTOM_PADDING);
+            
+            float scrollbarY = listY + SCROLLBAR_PADDING;
+            float scrollbarHeight = listH - SCROLLBAR_PADDING * 2;
+            float thumbHeight = Math.max(20.0F, scrollbarHeight * (viewportHeight / contentHeight));
+            
+            double dragDistance = mouseY - dragStartY;
+            double scrollDistance = dragDistance / (scrollbarHeight - thumbHeight) * maxScroll;
+            
+            scroll = MathHelper.clamp(scrollAtDragStart + scrollDistance, 0.0, maxScroll);
+            return true;
+        }
+        
         layoutModulesForInteraction();
         for (ModuleComponent component : moduleComponents) {
             if (component.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) {
@@ -145,14 +227,22 @@ public class DropdownCategoryComponent extends CategoryComponent {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         layoutModulesForInteraction();
-        moduleComponents.forEach(component -> component.keyPressed(keyCode, scanCode, modifiers));
+        for (ModuleComponent component : moduleComponents) {
+            if (component.keyPressed(keyCode, scanCode, modifiers)) {
+                return true;
+            }
+        }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
     public boolean charTyped(char chr, int modifiers) {
         layoutModulesForInteraction();
-        moduleComponents.forEach(component -> component.charTyped(chr, modifiers));
+        for (ModuleComponent component : moduleComponents) {
+            if (component.charTyped(chr, modifiers)) {
+                return true;
+            }
+        }
         return super.charTyped(chr, modifiers);
     }
 
@@ -165,7 +255,7 @@ public class DropdownCategoryComponent extends CategoryComponent {
         float listX = x + CONTENT_HORIZONTAL_PADDING;
         float smoothingOffset = (float) smoothedScroll;
         float listY = y + HEADER_HEIGHT - smoothingOffset;
-        float listW = width - CONTENT_HORIZONTAL_PADDING * 2.0F;
+        float listW = width - CONTENT_HORIZONTAL_PADDING * 2.0F - SCROLLBAR_WIDTH - SCROLLBAR_PADDING;
 
         float offset = 0.0F;
         float clipTop = y + HEADER_HEIGHT;

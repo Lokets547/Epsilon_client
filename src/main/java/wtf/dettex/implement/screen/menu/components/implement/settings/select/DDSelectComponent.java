@@ -103,7 +103,14 @@ public class DDSelectComponent extends AbstractSettingComponent {
             }
 
             if (open) {
-                selectedButtons.forEach(selectedButton -> selectedButton.mouseClicked(mouseX, mouseY, button));
+                // Check if any button was clicked (selected)
+                for (DDSelectedButton selectedButton : selectedButtons) {
+                    if (selectedButton.mouseClicked(mouseX, mouseY, button)) {
+                        // Item was selected, close the dropdown
+                        open = false;
+                        return true;
+                    }
+                }
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);

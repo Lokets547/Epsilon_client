@@ -56,6 +56,7 @@ public class DDSelectedButton extends AbstractComponent {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isHovered(mouseX, mouseY, x, y, width, height) && button == 0) {
             setting.setSelected(text);
+            return true; // Signal that selection was made
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
