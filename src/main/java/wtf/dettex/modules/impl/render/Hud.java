@@ -19,10 +19,10 @@ public class Hud extends Module {
     }
 
     public MultiSelectSetting interfaceSettings = new MultiSelectSetting("Elements", "Customize the interface elements")
-                .value("Watermark", "Hot Keys", "Potions", "Staff List", "Target Hud", "Armor", "Cool Downs", "Inventory", "Player Info", "Boss Bars", "Notifications", "Score Board", "Media Player", "HotBar", "Rotations");
+                .value("Watermark", "Hot Keys", "Potions", "Staff List", "Target Hud", "Armor", "Cool Downs", "Inventory", "Boss Bars", "Notifications", "Score Board", "Media Player", "HotBar");
 
     public SelectSetting watermarkStyle = new SelectSetting("Watermark Style", "Select primary watermark block style")
-            .value("Client Name", "Client Logo", "None")
+            .value("Client Name", "Client Logo", "Client Name + Logo")
             .selected("Client Name")
             .visible(() -> interfaceSettings.isSelected("Watermark"));
 

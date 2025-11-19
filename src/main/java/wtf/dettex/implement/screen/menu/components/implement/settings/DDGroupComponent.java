@@ -27,7 +27,7 @@ public class DDGroupComponent extends AbstractSettingComponent {
 
         Fonts.getSize(14, BOLD).drawString(context.getMatrices(), setting.getName(), x + 6, y + 6, 0xFFD4D6E1);
 
-        ((CheckComponent) checkComponent.position(x + width - 16, y + 6.5F))
+        ((CheckComponent) checkComponent.position(x + width - 16, y + 4.0F))
                 .setRunnable(() -> setting.setValue(!setting.isValue()))
                 .setState(setting.isValue())
                 .render(context, mouseX, mouseY, delta);

@@ -49,13 +49,8 @@ public class WindowManager extends AbstractComponent {
             }
         }
 
-        if (!clickedInsideWindow) {
-            for (AbstractWindow window : windows) {
-                window.startCloseAnimation();
-
-            }
-            return false;
-        }
+        // Не закрываем окна при клике вне их - это позволяет открывать несколько окон настроек одновременно
+        // Окна закрываются только при повторном клике на иконку настроек (toggle в GroupComponent)
 
         return clickedInsideWindow;
     }

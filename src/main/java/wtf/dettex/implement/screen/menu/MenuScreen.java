@@ -113,12 +113,13 @@ public class MenuScreen extends Screen implements QuickImports {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         double[] p = unscale(mouseX, mouseY);
-        if (windowManager.mouseClicked(p[0], p[1], button)) return true;
+        // Обрабатываем клики по окнам, но не блокируем клики по компонентам
+        boolean windowHandled = windowManager.mouseClicked(p[0], p[1], button);
         boolean handled = false;
         for (AbstractComponent component : components) {
             handled |= component.mouseClicked(p[0], p[1], button);
         }
-        return handled || super.mouseClicked(mouseX, mouseY, button);
+        return windowHandled || handled || super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override

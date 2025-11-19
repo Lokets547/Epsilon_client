@@ -22,7 +22,7 @@ public class DDCheckBoxComponent extends AbstractSettingComponent {
 
         Fonts.getSize(13, BOLD).drawString(context.getMatrices(), setting.getName(), x + 9, y + 9, 0xFFD4D6E1);
 
-        ((CheckComponent) checkComponent.position(x + width - 16, y + 7.5F))
+        ((CheckComponent) checkComponent.position(x + width - 16, y + 3.0F))
                 .setRunnable(() -> setting.setValue(!setting.isValue()))
                 .setState(setting.isValue())
                 .render(context, mouseX, mouseY, delta);
