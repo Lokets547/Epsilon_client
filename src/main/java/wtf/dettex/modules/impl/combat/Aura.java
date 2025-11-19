@@ -62,7 +62,7 @@ public class Aura extends Module {
             .value("Free", "Focused", "Targeted").selected("Free");
 
     SelectSetting aimMode = new SelectSetting("Rotation Type", "Allows you to select the rotation type")
-            .value("FuntimeSmooth", "FuntimeSnap", "Snap", "Universal", "ReallyWorld", "SpookyTime", "HvH", "FuntimeTest", "Matrix|Bypass"
+            .value("FuntimeSmooth", "FuntimeSnap", "Snap", "Universal", "ReallyWorld", "SpookyTime", "HvH", "FuntimeTest", "Matrix|Bypass", "Trax", "Manda"
                     //, "AI"
             ).selected("Snap");
 

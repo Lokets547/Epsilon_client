@@ -141,7 +141,8 @@ public class EntityESP extends Module {
     public void onDraw(DrawEvent e) {
         DrawContext context = e.getDrawContext();
         MatrixStack matrix = context.getMatrices();
-        blurGlass.setup();
+        // Do not reinitialize shared blurGlass here; Backdrop is captured globally each frame
+
         FontRenderer font = Fonts.getSize(sizeSetting.getInt(), Fonts.Type.DEFAULT);
         FontRenderer bigFont = Fonts.getSize(sizeSetting.getInt() + 2, Fonts.Type.DEFAULT);
         if (entityType.isSelected("Player")) {

@@ -46,12 +46,17 @@ public class DropdownCategoryComponent extends CategoryComponent {
         scroll = MathHelper.clamp(scroll, 0.0, maxScroll);
         smoothedScroll = MathHelper.clamp(smoothedScroll + (scroll - smoothedScroll) * SCROLL_SMOOTHING, 0.0, maxScroll);
 
-        // Panel background
+        // Panel background: slightly less transparent for stronger uniform look
         blurGlass.render(ShapeProperties.create(matrices, x, y, width, height)
                 .round(12)
                 .thickness(1)
                 .outlineColor(ColorUtil.BLACK)
-                .color(ColorUtil.getRect(0.3F))
+                .color(ColorUtil.getRect(0.26F))
+                .build());
+        // Stronger neutral overlay to minimize background color bleed across categories
+        rectangle.render(ShapeProperties.create(matrices, x, y, width, height)
+                .round(12)
+                .color(ColorUtil.getRect(0.10F))
                 .build());
 
         // Category title centered at top

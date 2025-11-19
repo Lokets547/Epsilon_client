@@ -28,15 +28,8 @@ public class BlurGlass extends Blur {
     @Override
     public void render(ShapeProperties shape) {
         Hud hud = Hud.getInstance();
-        if (!hud.hudType.isSelected("New")) {
-            super.render(shape);
-            return;
-        }
-        Framebuffer backdrop = Backdrop.getBuffer();
-        boolean fallback = backdrop == null;
-        if (fallback) {
-            setup();
-        }
+        // Always capture the current framebuffer; do not rely on Backdrop so GUI never changes with ESP
+        setup();
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -50,7 +43,8 @@ public class BlurGlass extends Blur {
         Vector3f size = matrix4f.getScale(new Vector3f()).mul(scale);
         Vector4f round = shape.getRound().mul(size.y);
 
-        boolean newHud = hud.hudType.isSelected("New");
+        // Always render using glass shader with Backdrop input for consistent GUI regardless of other modules
+        boolean newHud = false; // preserve provided thickness/outline from shape
 
         float quality = Math.max(24.0F, shape.getQuality());
         float softness = shape.getSoftness();
@@ -62,9 +56,7 @@ public class BlurGlass extends Blur {
         drawEngine.quad(matrix4f, buffer, shape.getX() - softness / 2.0F, shape.getY() - softness / 2.0F, shape.getWidth() + softness, shape.getHeight() + softness);
 
         GlStateManager._activeTexture(GL13.GL_TEXTURE0);
-        if (!fallback && backdrop != null) {
-            RenderSystem.bindTexture(backdrop.getColorAttachment());
-        } else if (input != null) {
+        if (input != null) {
             RenderSystem.bindTexture(input.getColorAttachment());
         }
 
@@ -75,11 +67,7 @@ public class BlurGlass extends Blur {
         shader.getUniformOrDefault("softness").set(softness);
         shader.getUniformOrDefault("thickness").set(thickness);
         shader.getUniformOrDefault("Quality").set(quality);
-        if (!fallback && Backdrop.getResolution() != null) {
-            shader.getUniformOrDefault("InputResolution").set(Backdrop.getResolution().x, Backdrop.getResolution().y);
-        } else {
-            shader.getUniformOrDefault("InputResolution").set(resolution.x, resolution.y);
-        }
+        shader.getUniformOrDefault("InputResolution").set(resolution.x, resolution.y);
 
         float distortion = shape.getStart() != 0.0F ? shape.getStart() : DEFAULT_DISTORTION;
         shader.getUniformOrDefault("Distortion").set(distortion);
@@ -94,7 +82,7 @@ public class BlurGlass extends Blur {
         shader.getUniformOrDefault("color2").set(red, green, blue, solidAlpha);
         shader.getUniformOrDefault("color3").set(red, green, blue, solidAlpha);
         shader.getUniformOrDefault("color4").set(red, green, blue, solidAlpha);
-        int outlineColor = newHud ? 0x00000000 : shape.getOutlineColor();
+        int outlineColor = shape.getOutlineColor();
         shader.getUniformOrDefault("outlineColor").set(ColorUtil.redf(outlineColor), ColorUtil.greenf(outlineColor), ColorUtil.bluef(outlineColor), ColorUtil.alphaf(ColorUtil.multAlpha(outlineColor, alpha)));
 
         BufferRenderer.drawWithGlobalProgram(buffer.end());

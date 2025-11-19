@@ -18,13 +18,7 @@ import java.util.List;
 
 @Mixin(ServerList.class)
 public class ServerListMixin {
-    @Unique private final List<ServerInfo> sponsorServers = List.of(
-            new ServerInfo("Лучший Сервер!", "c9.hoolmc.ru", ServerInfo.ServerType.REALM),
-            new ServerInfo("FunTime", "play.funtime.su", ServerInfo.ServerType.REALM),
-            new ServerInfo("SpookyTime", "spookytime.net", ServerInfo.ServerType.REALM),
-            new ServerInfo("HolyWorld", "hub.holyworld.ru", ServerInfo.ServerType.REALM),
-            new ServerInfo("ReallyWorld", "mc.reallyworld.ru", ServerInfo.ServerType.REALM)
-    );
+    @Unique private final List<ServerInfo> sponsorServers = List.of();
 
     @Shadow @Final private List<ServerInfo> servers;
 

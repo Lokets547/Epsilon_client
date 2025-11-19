@@ -10,6 +10,7 @@ import wtf.dettex.api.system.font.FontRenderer;
 import wtf.dettex.api.system.font.Fonts;
 import wtf.dettex.api.system.shape.ShapeProperties;
 import wtf.dettex.common.util.color.ColorUtil;
+import wtf.dettex.modules.impl.render.Hud;
 
 import java.awt.*;
 
@@ -35,6 +36,18 @@ public class BossBars extends AbstractDraggable {
         FontRenderer font = Fonts.getSize(18);
 
         for (ClientBossBar bossInfo : mc.inGameHud.getBossBarHud().bossBars.values()) {
+            // Blur background behind each bossbar entry
+            String nameStr = bossInfo.getName().getString();
+            float nameWidth = font.getStringWidth(nameStr);
+            float bgWidth = Math.max(width + 16, nameWidth + 24);
+            float bgX = getX() - bgWidth / 2.0F;
+            float bgH = 22.0F;
+            blurGlass.render(ShapeProperties.create(matrix, bgX, y, bgWidth, bgH)
+                    .round(4).softness(1).thickness(2)
+                    .outlineColor(ColorUtil.getOutline())
+                    .color(ColorUtil.getRect(Hud.newHudAlpha.getValue()))
+                    .build());
+
             Vector4f rounds = bossInfo.getPercent() != 1 ? new Vector4f(0,0,height / 2,height / 2) : new Vector4f(height / 2);
             int color = getColor(bossInfo.getColor());
 

@@ -58,41 +58,44 @@ public abstract class AbstractDraggable implements Draggable, QuickImports, Quic
         this.x = (int) Math.max(0, Math.min(mouseDragX, windowWidth - width));
         this.y = (int) Math.max(0, Math.min(mouseDragY, windowHeight - height));
 
-        for (AbstractDraggable drag : Main.getInstance().getDraggableRepository().draggable()) {
-            if (!drag.canDraw(hud, drag)) continue;
-            if (!drag.canDrag) continue;
-            if (drag == this) continue;
+        boolean allowSnapToOthers = mc.player != null && !(mc.currentScreen instanceof wtf.dettex.implement.screen.mainmenu.CustomMainMenu);
+        if (allowSnapToOthers) {
+            for (AbstractDraggable drag : Main.getInstance().getDraggableRepository().draggable()) {
+                if (!drag.canDraw(hud, drag)) continue;
+                if (!drag.canDrag) continue;
+                if (drag == this) continue;
 
-            int x1 = drag.x + drag.width + radius;
-            int x2 = drag.x - width - radius;
+                int x1 = drag.x + drag.width + radius;
+                int x2 = drag.x - width - radius;
 
-            int y1 = drag.y + drag.height + radius;
-            int y2 = drag.y - height - radius;
-            int y3 = drag.y;
+                int y1 = drag.y + drag.height + radius;
+                int y2 = drag.y - height - radius;
+                int y3 = drag.y;
 
-            if (Math.abs(x1 - mouseDragX) <= radius) {
-                drawRect(x1 - 1.5F,0,1,windowHeight);
-                this.x = x1;
-            }
+                if (Math.abs(x1 - mouseDragX) <= radius) {
+                    drawRect(x1 - 1.5F,0,1,windowHeight);
+                    this.x = x1;
+                }
 
-            if (Math.abs(x2 - mouseDragX) <= radius) {
-                drawRect(x2 + width + 1,0,1,windowHeight);
-                this.x = x2;
-            }
+                if (Math.abs(x2 - mouseDragX) <= radius) {
+                    drawRect(x2 + width + 1,0,1,windowHeight);
+                    this.x = x2;
+                }
 
-            if (Math.abs(y1 - mouseDragY) <= radius) {
-                drawRect(0,y1 - 1.5F,windowWidth,1);
-                this.y = y1;
-            }
+                if (Math.abs(y1 - mouseDragY) <= radius) {
+                    drawRect(0,y1 - 1.5F,windowWidth,1);
+                    this.y = y1;
+                }
 
-            if (Math.abs(y2 - mouseDragY) <= radius) {
-                drawRect(0,y2 + height + 1,windowWidth,1);
-                this.y = y2;
-            }
+                if (Math.abs(y2 - mouseDragY) <= radius) {
+                    drawRect(0,y2 + height + 1,windowWidth,1);
+                    this.y = y2;
+                }
 
-            if (Math.abs(y3 - mouseDragY) <= radius) {
-                drawRect(0,y3 - 1.5F,windowWidth,1);
-                this.y = y3;
+                if (Math.abs(y3 - mouseDragY) <= radius) {
+                    drawRect(0,y3 - 1.5F,windowWidth,1);
+                    this.y = y3;
+                }
             }
         }
 
@@ -161,6 +164,11 @@ public abstract class AbstractDraggable implements Draggable, QuickImports, Quic
     }
 
     public boolean canDraw(Hud hud, AbstractDraggable draggable) {
+        if (mc.player == null) {
+            boolean isMediaOnMenu = (mc.currentScreen instanceof wtf.dettex.implement.screen.mainmenu.CustomMainMenu) && (draggable instanceof wtf.dettex.implement.features.draggables.MediaPlayer);
+            boolean isChat = PlayerIntersectionUtil.isChat(mc.currentScreen);
+            if (!isMediaOnMenu && !isChat) return false;
+        }
         return hud.isState() && hud.interfaceSettings.isSelected(draggable.getName()) && visible();
     }
 }

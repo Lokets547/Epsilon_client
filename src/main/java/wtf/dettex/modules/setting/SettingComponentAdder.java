@@ -2,13 +2,10 @@ package wtf.dettex.modules.setting;
 
 import wtf.dettex.modules.setting.implement.*;
 import wtf.dettex.implement.screen.menu.components.implement.settings.*;
-import wtf.dettex.implement.screen.menu.components.implement.settings.*;
 import wtf.dettex.implement.screen.menu.components.implement.settings.multiselect.DDMultiSelectComponent;
 import wtf.dettex.implement.screen.menu.components.implement.settings.multiselect.MultiSelectComponent;
 import wtf.dettex.implement.screen.menu.components.implement.settings.select.DDSelectComponent;
 import wtf.dettex.implement.screen.menu.components.implement.settings.select.SelectComponent;
-import wtf.dettex.modules.impl.render.ClickGUI;
-import wtf.dettex.modules.setting.implement.*;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ public class SettingComponentAdder {
     private final boolean dropdown;
 
     public SettingComponentAdder() {
-        this.dropdown = ClickGUI.getInstance() != null && ClickGUI.getInstance().mode().isSelected("DropDown");
+        this.dropdown = true; // Force DropDown layout only
     }
 
     public void addSettingComponent(List<Setting> settings, List<AbstractSettingComponent> components) {

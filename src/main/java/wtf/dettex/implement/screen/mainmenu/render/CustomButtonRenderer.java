@@ -14,25 +14,39 @@ public final class CustomButtonRenderer {
     public static void render(DrawContext context, int x, int y, int width, int height, Text text, boolean hovered, boolean active, float fade) {
         float clampedFade = Math.max(0F, Math.min(1F, fade));
 
-        float baseAlpha = active ? 0.7F : 0.6F;
-        if (hovered) {
-            baseAlpha = Math.min(0.8F, baseAlpha + 0.05F);
-        } else {
-            baseAlpha = Math.max(0.6F, baseAlpha);
-        }
-        float outlineAlpha = Math.min(0.8F, baseAlpha + 0.05F);
+        // Use constant tint to avoid color differences between buttons
+        float visAlpha = 0.62F;
+        float visOutlineAlpha = 0.72F;
 
-        int fillColor = ColorUtil.getAltManager(baseAlpha);
-        int outlineColor = ColorUtil.getAltManager(outlineAlpha);
+        int fillColor = ColorUtil.getRect(visAlpha);
+        int outlineColor = ColorUtil.getRect(visOutlineAlpha);
 
-        QuickImports.blurGlass.render(ShapeProperties.create(context.getMatrices(), x, y, width, height)
-                .round(5)
+        // Scale up slightly on hover using fade
+        float scale = 1.0f + 0.03f * clampedFade;
+        context.getMatrices().push();
+        float cx = x + width / 2f;
+        float cy = y + height / 2f;
+        context.getMatrices().translate(cx, cy, 0);
+        context.getMatrices().scale(scale, scale, 1.0f);
+        int drawX = Math.round(-width / 2f);
+        int drawY = Math.round(-height / 2f);
+
+        QuickImports.blurGlass.render(ShapeProperties.create(context.getMatrices(), drawX, drawY, width, height)
+                .round(6)
+                .softness(1.3F)
                 .thickness(2)
-                .outlineColor(ColorUtil.replAlpha(outlineColor, (int) (ColorUtil.alpha(outlineColor) * clampedFade)))
-                .color(ColorUtil.replAlpha(fillColor, (int) (ColorUtil.alpha(fillColor) * clampedFade)))
+                .outlineColor(outlineColor)
+                .color(fillColor)
                 .build());
 
-        int textColor = ColorUtil.replAlpha(0xFFFFFFFF, (int) (255 * clampedFade));
-        Fonts.getSize(16, Fonts.Type.DEFAULT).drawCenteredString(context.getMatrices(), text.getString(), x + width / 2F - 1, y + height / 2F - 2, textColor);
+        // Uniform overlay to equalize perceived color across different backgrounds
+        QuickImports.rectangle.render(ShapeProperties.create(context.getMatrices(), drawX, drawY, width, height)
+                .round(6)
+                .color(ColorUtil.getRect(0.20F))
+                .build());
+
+        int textColor = ColorUtil.replAlpha(0xFFFFFFFF, (int) (255 * (0.85f + 0.15f * clampedFade)));
+        Fonts.getSize(16, Fonts.Type.DEFAULT).drawCenteredString(context.getMatrices(), text.getString(), drawX + width / 2F - 1, drawY + height / 2F - 2, textColor);
+        context.getMatrices().pop();
     }
 }

@@ -2,6 +2,7 @@ package wtf.dettex.api.mixins;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +35,38 @@ public class ScreenMixin {
         Object self = this;
         if (self instanceof MenuScreen || self instanceof CustomMainMenu || self instanceof AltManagerScreen) {
             ci.cancel();
+            return;
         }
+        String n = self.getClass().getName();
+        boolean isIngame = n.contains(".screen.ingame.");
+        boolean isChat = n.endsWith("ChatScreen") || n.contains(".screen.ChatScreen");
+        boolean isPause = n.endsWith("GameMenuScreen");
+        if (isIngame || isChat || isPause) {
+            // No background for chat/inventory and other ingame screens
+            ci.cancel();
+            return;
+        }
+        int w = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        int h = MinecraftClient.getInstance().getWindow().getScaledHeight();
+        CustomMainMenu.renderTitleBackground(context, w, h);
+        ci.cancel();
+    }
+
+    @Inject(method = "render", at = @At("HEAD"))
+    private void drawMenuBackgroundOnRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        Object self = this;
+        if (self instanceof MenuScreen || self instanceof CustomMainMenu || self instanceof AltManagerScreen) {
+            return;
+        }
+        String n = self.getClass().getName();
+        boolean isIngame = n.contains(".screen.ingame.");
+        boolean isChat = n.endsWith("ChatScreen") || n.contains(".screen.ChatScreen");
+        boolean isPause = n.endsWith("GameMenuScreen");
+        if (isIngame || isChat || isPause) {
+            return;
+        }
+        int w = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        int h = MinecraftClient.getInstance().getWindow().getScaledHeight();
+        CustomMainMenu.renderTitleBackground(context, w, h);
     }
 }

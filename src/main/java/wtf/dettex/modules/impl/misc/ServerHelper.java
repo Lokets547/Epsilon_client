@@ -103,6 +103,8 @@ public class ServerHelper extends Module {
             .setValue(true).visible(ServerUtil::isCopyTime);
     BooleanSetting autoPointSetting = new BooleanSetting("Auto Point", "Displays information on the event")
             .setValue(true).visible(ServerUtil::isFunTime);
+    BooleanSetting nearbyPlayerCheck = new BooleanSetting("Nearby Player Check", "Only use abilities when a player is nearby")
+            .setValue(false);
 
     
 
@@ -122,15 +124,13 @@ public class ServerHelper extends Module {
         keyBindings.add(new KeyBind(Items.FIRE_CHARGE, new BindSetting("Fire Tornado", "Fire Tornado Key").visible(ServerUtil::isCopyTime), 10));
         keyBindings.add(new KeyBind(Items.ENDER_EYE, new BindSetting("Disorientation", "Disorientation Key").visible(ServerUtil::isCopyTime), 10));
         keyBindings.forEach(bind -> setup(bind.setting));
-        setup(autoLootSetting, consumablesSetting, autoPointSetting, autoShulkerSetting, autoRepairSetting);
+        setup(autoLootSetting, consumablesSetting, autoPointSetting, autoShulkerSetting, autoRepairSetting, nearbyPlayerCheck);
     }
 
     public ServerHelper() {
         super("ServerHelper", "Server Helper", ModuleCategory.MISC);
         initialize();
     }
-
-    @Override
      
     public void activate() {
         script2.cleanup();
@@ -562,6 +562,7 @@ public class ServerHelper extends Module {
     }
 
     private boolean validDistance(float dist) {
+        if (!nearbyPlayerCheck.isValue()) return true;
         return dist == 0 || mc.world.getPlayers().stream().anyMatch(p -> p != mc.player && !FriendUtils.isFriend(p) && mc.player.distanceTo(p) <= dist);
     }
 

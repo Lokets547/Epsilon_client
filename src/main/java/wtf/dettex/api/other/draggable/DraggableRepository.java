@@ -31,6 +31,7 @@ public class DraggableRepository {
                 new ScoreBoard(),
                 new MediaPlayer(),
                 new HotBar(),
+                new Rotations(),
                 new PlayerInfo()
         );
     }

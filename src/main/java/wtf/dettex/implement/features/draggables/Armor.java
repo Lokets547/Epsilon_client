@@ -45,6 +45,10 @@ public class Armor extends AbstractDraggable {
             ScissorManager scissor = Main.getInstance().getScissorManager();
             int width = 41;
 
+            // Blur background behind vanilla hotbar sprites for consistency
+            blurGlass.render(ShapeProperties.create(matrix, getX() - 3, getY() - 3, width * 2, 22)
+                    .round(3).thickness(2).softness(1).outlineColor(ColorUtil.getOutline()).color(ColorUtil.getRect(Hud.newHudAlpha.getValue())).build());
+
             scissor.push(matrix.peek().getPositionMatrix(), getX() - 3, getY() - 3, width, 22);
             Render2DUtil.drawSprite(matrix, sprite, getX() - 3, getY() - 3, 182, 22);
             scissor.pop();

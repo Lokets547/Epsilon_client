@@ -19,7 +19,7 @@ public class Hud extends Module {
     }
 
     public MultiSelectSetting interfaceSettings = new MultiSelectSetting("Elements", "Customize the interface elements")
-                .value("Watermark", "Hot Keys", "Potions", "Staff List", "Target Hud", "Armor", "Cool Downs", "Inventory", "Player Info", "Boss Bars", "Notifications", "Score Board", "Media Player", "HotBar");
+                .value("Watermark", "Hot Keys", "Potions", "Staff List", "Target Hud", "Armor", "Cool Downs", "Inventory", "Player Info", "Boss Bars", "Notifications", "Score Board", "Media Player", "HotBar", "Rotations");
 
     public SelectSetting watermarkStyle = new SelectSetting("Watermark Style", "Select primary watermark block style")
             .value("Client Name", "Client Logo", "None")
@@ -31,9 +31,9 @@ public class Hud extends Module {
 
     public ColorSetting colorSetting = new ColorSetting("Client Color", "Select your client's color")
             .setColor(0xFF6C9AFD).presets(0xFF6C9AFD, 0xFF8C7FFF, 0xFFFFA576, 0xFFFF7B7B);
-    public static SelectSetting hudType = new SelectSetting("Client Style", "Select the client's style").value("Blur", "New");
+    public static SelectSetting hudType = new SelectSetting("Client Style", "Select the client's style").value("Blur").selected("Blur").visible(() -> false);
 
-    public static ValueSetting newHudAlpha = new ValueSetting("Hud Alpha", "Accept you customize the blur's alpha").range(0.1f, 1.0f);
+    public static ValueSetting newHudAlpha = new ValueSetting("Hud Alpha", "Accept you customize the blur's alpha").range(0.1f, 1.0f).setValue(1.0f);
 
     public static BooleanSetting glassBlur = new BooleanSetting("Glass Blur", "Turn on glass blur").visible(()-> hudType.isSelected("Liquid Glass")).setValue(false);
 
@@ -57,6 +57,7 @@ public class Hud extends Module {
 
     public Hud() {
         super("Hud", ModuleCategory.RENDER);
+        // Force Blur style always; keep setting internal for compatibility but without switching
         setup(hudType, newHudAlpha, colorSetting, interfaceSettings, watermarkStyle, notificationSettings, preSetting, playSetting, nextSetting);
     }
 

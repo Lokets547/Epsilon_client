@@ -56,11 +56,6 @@ public class MatrixBypassSmoothMode extends AngleSmoothMode {
         // Update lastPitch
         lastPitch = clampedPitch;
 
-        // Apply yaw offset to player for movement correction
-        if (mc.player != null) {
-            mc.player.bodyYaw = yaw;
-        }
-
         return new Angle(yaw, pitch);
     }
 

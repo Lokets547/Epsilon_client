@@ -30,8 +30,12 @@ public class Blur implements Shape, QuickImports {
         RenderSystem.enableDepthTest();
         RenderSystem.enableCull();
 
+        // Always ensure we have a fresh input buffer of the current frame before rendering
+        // This makes GUI blur consistent regardless of other modules' initialization order
+        setup();
+
         float scale = (float) mc.getWindow().getScaleFactor();
-        float alpha = RenderSystem.getShaderColor()[3];
+        float alpha = 1.0F; // Don't depend on global RenderSystem alpha; ensures stable GUI opacity at startup
         Matrix4f matrix4f = shape.getMatrix().peek().getPositionMatrix();
         Vector3f pos = matrix4f.transformPosition(shape.getX(), shape.getY(), 0, new Vector3f()).mul(scale);
         Vector3f size = matrix4f.getScale(new Vector3f()).mul(scale);

@@ -114,7 +114,6 @@ public class ModuleRepository {
                 new AirStuck(),
                 //new ChinaHat(),
                 new AimBot(),
-                new ClickGUI(),
                 new SkeletonESP(),
                 new ElytraMotion()
         );

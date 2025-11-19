@@ -96,9 +96,6 @@ public abstract class LivingEntityMixin {
 
     @ModifyExpressionValue(method = "turnHead", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;wrapDegrees(F)F", ordinal = 1))
     private float wrapDegreesHook(float original) {
-        if ((Object) this == client.player) {
-            return MathHelper.wrapDegrees(RotationController.INSTANCE.getRotation().getYaw() - bodyYaw);
-        }
         return original;
     }
 }

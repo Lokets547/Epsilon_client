@@ -20,6 +20,7 @@ import net.minecraft.util.Hand;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wtf.dettex.event.EventManager;
 import wtf.dettex.common.QuickImports;
 import wtf.dettex.common.util.other.BufferUtil;
+import wtf.dettex.api.other.draggable.AbstractDraggable;
 import wtf.dettex.Main;
 import wtf.dettex.api.file.exception.FileProcessingException;
 import wtf.dettex.api.system.font.Fonts;
@@ -87,6 +89,9 @@ public abstract class MinecraftClientMixin implements QuickImports {
     private boolean wasUnHookEnabled = false;
 
     @Unique
+    private boolean startupScreensBypassed = false;
+
+    @Unique
     private String getBabkaTime() {
         LocalTime currentTime = LocalTime.now();
         int hour = currentTime.getHour();
@@ -100,6 +105,17 @@ public abstract class MinecraftClientMixin implements QuickImports {
         } else {
             return "Good night";
         }
+    }
+
+    @Unique
+    private void forceFullscreenGLFW() {
+        MinecraftClient c = (MinecraftClient) (Object) this;
+        long handle = c.getWindow().getHandle();
+        long monitor = GLFW.glfwGetPrimaryMonitor();
+        if (monitor == MemoryUtil.NULL) return;
+        GLFWVidMode mode = GLFW.glfwGetVideoMode(monitor);
+        if (mode == null) return;
+        GLFW.glfwSetWindowMonitor(handle, monitor, 0, 0, mode.width(), mode.height(), mode.refreshRate());
     }
 
     @Unique
@@ -131,6 +147,18 @@ public abstract class MinecraftClientMixin implements QuickImports {
         initializeWindowTitle();
         setWindowIcon();
         applyWindowStyle();
+        try { ((MinecraftClient)(Object)this).getLanguageManager().setLanguage("ru_ru"); } catch (Throwable ignored) {}
+        try { ((MinecraftClient)(Object)this).options.getGuiScale().setValue(2); } catch (Throwable ignored) {}
+        try {
+            MinecraftClient c = (MinecraftClient) (Object) this;
+            c.options.getFullscreen().setValue(true);
+            long handle = c.getWindow().getHandle();
+            if (GLFW.glfwGetWindowMonitor(handle) == MemoryUtil.NULL) {
+                forceFullscreenGLFW();
+            }
+        } catch (Throwable ignored) {}
+        try { ((MinecraftClient)(Object)this).onResolutionChanged(); } catch (Throwable ignored) {}
+        try { ((MinecraftClient)(Object)this).options.write(); } catch (Throwable ignored) {}
     }
 
     @Unique
@@ -158,7 +186,7 @@ public abstract class MinecraftClientMixin implements QuickImports {
 
     @Unique
     private void setCustomIcon() {
-        final String resourcePath = "/icons/dettex.jpg";
+        final String resourcePath = "/icons/Epsilon.jpg";
 
         try (InputStream iconStream = MinecraftClientMixin.class.getResourceAsStream(resourcePath)) {
             if (iconStream != null) {
@@ -260,11 +288,23 @@ public abstract class MinecraftClientMixin implements QuickImports {
 
     @Inject(method = "setScreen", at = @At(value = "HEAD"), cancellable = true)
     public void setScreenHook(Screen screen, CallbackInfo ci) {
+        Screen orig = screen;
+        if (screen != null) {
+            String name = screen.getClass().getName();
+            String simple = screen.getClass().getSimpleName();
+            String title = screen.getTitle() != null ? screen.getTitle().getString() : "";
+            if (!startupScreensBypassed && (simple.contains("Language") || simple.contains("Onboarding") || simple.contains("Telemetry") || simple.contains("Accessibility"))) {
+                screen = new wtf.dettex.implement.screen.mainmenu.CustomMainMenu();
+                startupScreensBypassed = true;
+            } else if (title.contains("Invalid session") || title.contains("Недействительный сеанс")) {
+                screen = new wtf.dettex.implement.screen.mainmenu.CustomMainMenu();
+            }
+        }
         SetScreenEvent event = new SetScreenEvent(screen);
         EventManager.callEvent(event);
         Main.getInstance().getDraggableRepository().draggable().forEach(drag -> drag.setScreen(event));
         Screen eventScreen = event.getScreen();
-        if (screen != eventScreen) {
+        if (orig != eventScreen) {
             ((MinecraftClient) (Object) this).setScreen(eventScreen);
             ci.cancel();
         }
@@ -320,6 +360,13 @@ public abstract class MinecraftClientMixin implements QuickImports {
 
         if (!isUnHookEnabled()) {
             animateTitle();
+        }
+
+        // Tick draggables when in menus (no player), so widgets like MediaPlayer update in main menu
+        if (player == null) {
+            try {
+                Main.getInstance().getDraggableRepository().draggable().forEach(AbstractDraggable::tick);
+            } catch (Exception ignored) {}
         }
     }
 

@@ -97,6 +97,14 @@ public class RotationController implements QuickImports {
         setRotation(newAngle);
         lastRotationPlan = activePlan;
         rotationPlanTaskProcessor.tick(1);
+        if (mc.player != null) {
+            Angle visual = getRotation();
+            mc.player.headYaw = visual.getYaw();
+            // Do not force bodyYaw in third-person to avoid jitter; let vanilla handle body yaw smoothing
+            if (mc.options.getPerspective().isFirstPerson()) {
+                mc.player.bodyYaw = visual.getYaw();
+            }
+        }
     }
 
     public static double computeRotationDifference(Angle a, Angle b) {

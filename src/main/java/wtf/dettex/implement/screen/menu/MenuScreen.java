@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import wtf.dettex.implement.screen.menu.components.implement.other.CategoryContainerComponent;
+
 import wtf.dettex.modules.api.ModuleCategory;
 import wtf.dettex.api.system.animation.Animation;
 import wtf.dettex.api.system.animation.implement.DecelerateAnimation;
@@ -14,9 +15,9 @@ import wtf.dettex.common.QuickImports;
 import wtf.dettex.common.util.math.MathUtil;
 import wtf.dettex.implement.screen.menu.components.AbstractComponent;
 import wtf.dettex.implement.screen.menu.components.implement.category.DropdownCategoryComponent;
+
 import wtf.dettex.implement.screen.menu.components.implement.other.*;
 import wtf.dettex.implement.screen.menu.components.implement.settings.TextComponent;
-import wtf.dettex.modules.impl.render.ClickGUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class MenuScreen extends Screen implements QuickImports {
     public static MenuScreen INSTANCE = new MenuScreen();
     private final List<AbstractComponent> components = new ArrayList<>();
     private CategoryContainerComponent panelContainer;
+
     private final List<DropdownCategoryComponent> dropdownComponents = new ArrayList<>();
     public final Animation animation = new DecelerateAnimation().setMs(200).setValue(1);
     public ModuleCategory category = ModuleCategory.COMBAT;
@@ -38,7 +40,6 @@ public class MenuScreen extends Screen implements QuickImports {
 
     public void initialize() {
         animation.setDirection(FORWARDS);
-        panelContainer = new CategoryContainerComponent();
         rebuildLayout();
     }
 
@@ -48,27 +49,20 @@ public class MenuScreen extends Screen implements QuickImports {
     }
 
     private boolean isDropdownLayout() {
-        ClickGUI clickGUI = ClickGUI.getInstance();
-        return clickGUI != null && clickGUI.mode().isSelected("DropDown");
+        return true;
     }
 
     private void rebuildLayout() {
         components.clear();
         dropdownComponents.clear();
 
-        cachedLayout = isDropdownLayout() ? "DropDown" : "Panels";
+        cachedLayout = "DropDown";
 
-        if ("DropDown".equalsIgnoreCase(cachedLayout)) {
-            panelContainer = null;
-            for (ModuleCategory moduleCategory : ModuleCategory.values()) {
-                DropdownCategoryComponent component = new DropdownCategoryComponent(moduleCategory);
-                dropdownComponents.add(component);
-                components.add(component);
-            }
-        } else {
-            panelContainer = new CategoryContainerComponent();
-            panelContainer.initializeCategoryComponents();
-            components.add(panelContainer);
+        panelContainer = null;
+        for (ModuleCategory moduleCategory : ModuleCategory.values()) {
+            DropdownCategoryComponent component = new DropdownCategoryComponent(moduleCategory);
+            dropdownComponents.add(component);
+            components.add(component);
         }
     }
 
@@ -92,11 +86,7 @@ public class MenuScreen extends Screen implements QuickImports {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        String currentLayout = isDropdownLayout() ? "DropDown" : "Panels";
-        if (!currentLayout.equalsIgnoreCase(cachedLayout)) {
-            rebuildLayout();
-            currentLayout = cachedLayout;
-        }
+        String currentLayout = "DropDown";
 
         x = window.getScaledWidth() / 2 - 318;
         y = window.getScaledHeight() / 2 - 160;
@@ -105,16 +95,12 @@ public class MenuScreen extends Screen implements QuickImports {
         // Height to accommodate 280px panels + top/bottom margins
         height = 320;
 
-        if ("DropDown".equalsIgnoreCase(currentLayout)) {
-            float offsetX = 0F;
-            float spacing = 6F;
-            for (DropdownCategoryComponent component : dropdownComponents) {
-                component.position(x + 6 + offsetX, y + 12);
-                component.size(115F, component.height);
-                offsetX += component.width + spacing;
-            }
-        } else if (panelContainer != null) {
-            panelContainer.position(x, y);
+        float offsetX = 0F;
+        float spacing = 6F;
+        for (DropdownCategoryComponent component : dropdownComponents) {
+            component.position(x + 6 + offsetX, y + 12);
+            component.size(115F, component.height);
+            offsetX += component.width + spacing;
         }
 
         MathUtil.scale(context.getMatrices(), x + (float) width / 2, y + (float) height / 2, getScaleAnimation(), () -> {
@@ -209,11 +195,12 @@ public class MenuScreen extends Screen implements QuickImports {
 
     private double[] unscale(double mx, double my) {
         float s = getScaleAnimation();
-        if (s == 0) s = 1f;
+        float scale2 = 0.5F + s / 2.0F; // match MathUtil.scale()
+        if (scale2 == 0) scale2 = 1f;
         float cx = x + (float) width / 2f;
         float cy = y + (float) height / 2f;
-        double ux = (mx - cx) / s + cx;
-        double uy = (my - cy) / s + cy;
+        double ux = (mx - cx) / scale2 + cx;
+        double uy = (my - cy) / scale2 + cy;
         return new double[]{ux, uy};
     }
 }

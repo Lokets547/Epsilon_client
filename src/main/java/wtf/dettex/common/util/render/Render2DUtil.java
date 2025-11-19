@@ -129,7 +129,8 @@ public class Render2DUtil implements QuickImports {
     }
 
     public void drawQuad(float x, float y, float width, float height, int color) {
-        QUAD.add(new Quad(x, y, width, height, ColorUtil.multAlpha(color,RenderSystem.getShaderColor()[3])));
+        // Do not apply global shader alpha here; keep explicit color alpha for stable GUI opacity
+        QUAD.add(new Quad(x, y, width, height, color));
     }
 
     public record Quad(float x, float y, float width, float height, int color) {}

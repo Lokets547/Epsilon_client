@@ -63,12 +63,16 @@ public class ModuleComponent extends AbstractComponent {
         float expandedHeight = getFullSettingsHeight();
         height = HEADER_HEIGHT + expandedHeight * animationValue;
 
-        // Darker background for enabled modules - render once for uniform fill
-        float headerAlpha = module.isState() ? 0.5F : 0.3F;
-        
+        // Uniform semi-transparent background for all modules (independent of state)
+        float headerAlpha = module.state ? 0.42F : 0.15F;
+
+        int backgroundColor = module.state
+                ? ColorUtil.getRect(headerAlpha)
+                : ColorUtil.getColor(255, 255, 255, 0.08F);
+
         blurGlass.render(ShapeProperties.create(context.getMatrices(), x, y, width, height)
                 .round(3)
-                .color(ColorUtil.getRect(headerAlpha))
+                .color(backgroundColor)
                 .build());
 
         bindAnimation.setDirection(binding ? Direction.FORWARDS : Direction.BACKWARDS);

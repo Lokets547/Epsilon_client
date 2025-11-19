@@ -28,7 +28,7 @@ public class Rectangle implements Shape, QuickImports {
         RenderSystem.enableCull();
 
         float scale = (float) mc.getWindow().getScaleFactor();
-        float alpha = RenderSystem.getShaderColor()[3];
+        float alpha = 1.0F; // Force full alpha; GUI opacity should not depend on global shader color
 
         Matrix4f matrix4f = shape.getMatrix().peek().getPositionMatrix();
         Vector3f pos = matrix4f.transformPosition(shape.getX(), shape.getY(), 0, new Vector3f()).mul(scale);

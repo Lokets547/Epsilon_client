@@ -55,6 +55,7 @@
     "LivingEntityRendererMixin",
     "MinecraftClientMixin",
     "ScreenMixin",
+    "DrawContextMixin",
     "ServerListMixin",
     "TextVisitFactoryMixin",
     "WorldRendererMixin",

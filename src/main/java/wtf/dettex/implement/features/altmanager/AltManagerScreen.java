@@ -70,6 +70,8 @@ public class AltManagerScreen extends Screen implements QuickImports {
     private float listWidth;
     private float listHeight;
 
+    private boolean embedded;
+
     public AltManagerScreen() {
         super(Text.translatable("menu.dettex.accounts"));
         String loaded = AltManagerConfig.loadAccounts(ALTS);
@@ -90,9 +92,21 @@ public class AltManagerScreen extends Screen implements QuickImports {
         return ColorUtil.replAlpha(color, (int) (ColorUtil.alpha(color) * clamped));
     }
 
+    public AltManagerScreen setEmbedded(boolean embedded) {
+        this.embedded = embedded;
+        return this;
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        CustomMainMenu.renderTitleBackground(context, this.width, this.height);
+        if (!embedded) {
+            CustomMainMenu.renderTitleBackground(context, this.width, this.height);
+        }
 
         computeLayout();
 
@@ -101,7 +115,7 @@ public class AltManagerScreen extends Screen implements QuickImports {
 
         float animationProgress = Math.max(0F, Math.min(1F, openAnimation.getOutput().floatValue()));
         if (closing && openAnimation.isFinished(Direction.BACKWARDS)) {
-            this.client.setScreen(null);
+            if (!embedded) this.client.setScreen(null);
             return;
         }
 
@@ -253,6 +267,11 @@ public class AltManagerScreen extends Screen implements QuickImports {
                 }
             }
             return true;
+        }
+        // If embedded and clicked outside the panel bounds, close without consuming the event
+        if (embedded && button == 0 && !MathUtil.isHovered(mouseX, mouseY, panelX, panelY, panelWidth, panelHeight)) {
+            close();
+            return false;
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
@@ -417,6 +436,10 @@ public class AltManagerScreen extends Screen implements QuickImports {
         closing = true;
         openAnimation.setDirection(Direction.BACKWARDS);
         openAnimation.reset();
+    }
+
+    public boolean isClosed() {
+        return closing && openAnimation.isFinished(Direction.BACKWARDS);
     }
 
     private Animation createEntryAnimation(Direction direction, boolean resetOnCreate) {

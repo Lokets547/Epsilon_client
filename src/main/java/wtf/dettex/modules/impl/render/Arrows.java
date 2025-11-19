@@ -36,7 +36,7 @@ import static net.minecraft.client.render.VertexFormats.POSITION_TEXTURE_COLOR;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Arrows extends Module {
     Identifier[] iconIds = {
-            Identifier.of("textures/arrow.png"),
+            Identifier.of("textures/arrowf.png"),
             Identifier.of("textures/arrow1.png"),
             Identifier.of("textures/arrow2.png"),
             Identifier.of("textures/arrow3.png"),
