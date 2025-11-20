@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat.killaura.rotation;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -162,4 +161,5 @@ public class RotationController implements QuickImports {
         }
     }
 }
+
 

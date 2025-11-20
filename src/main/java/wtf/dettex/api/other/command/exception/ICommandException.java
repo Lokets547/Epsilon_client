@@ -18,3 +18,4 @@ public interface ICommandException extends QuickLogger {
         );
     }
 }
+

@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -127,4 +126,5 @@ public class SPDuelsJoiner extends Module {
         }
     }
 }
+
 

@@ -16,3 +16,4 @@ public class NoInteract extends Module {
         super("NoInteract", "No Interact", ModuleCategory.COMBAT);
     }
 }
+

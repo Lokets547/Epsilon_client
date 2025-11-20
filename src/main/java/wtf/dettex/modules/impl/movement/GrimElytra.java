@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import net.minecraft.util.math.Vec3d;
 import wtf.dettex.event.EventHandler;
 import wtf.dettex.modules.api.Module;
@@ -50,4 +49,5 @@ public class GrimElytra extends Module {
         mc.player.setVelocity(dx * MathUtil.randomFloat(1.1f, 1.21f), mc.player.getVelocity().y + 0.016f, dz * MathUtil.randomFloat(1.1f, 1.21f));
     }
 }
+
 

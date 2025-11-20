@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.util.math.Vec3d;
@@ -35,3 +34,4 @@ public class FireWorkBooster extends Module {
         }
     }
 }
+

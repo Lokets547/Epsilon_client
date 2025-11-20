@@ -6,3 +6,4 @@ public class CommandInvalidStateException extends CommandErrorMessageException {
         super(reason);
     }
 }
+

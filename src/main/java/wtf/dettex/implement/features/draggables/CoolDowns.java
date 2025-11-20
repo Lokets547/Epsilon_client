@@ -107,3 +107,4 @@ public class CoolDowns extends AbstractDraggable {
 
     public record CoolDown(Item item, StopWatch time, Animation anim) {}
 }
+

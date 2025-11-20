@@ -53,3 +53,4 @@ public class SaturationComponent extends AbstractComponent {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

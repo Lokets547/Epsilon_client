@@ -83,3 +83,4 @@ public class Blur implements Shape, QuickImports {
         resolution.set((float) buffer.textureWidth, (float) buffer.textureHeight);
     }
 }
+

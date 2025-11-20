@@ -19,3 +19,4 @@ public class EntityColorEvent extends EventCancellable {
         this.entity = entity;
     }
 }
+

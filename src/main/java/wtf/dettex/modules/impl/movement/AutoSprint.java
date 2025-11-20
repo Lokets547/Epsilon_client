@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.effect.StatusEffects;
@@ -71,3 +70,4 @@ public class AutoSprint extends Module {
         }
     }
 }
+

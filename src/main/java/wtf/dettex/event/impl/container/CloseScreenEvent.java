@@ -16,3 +16,4 @@ public class CloseScreenEvent extends EventCancellable {
     Screen screen;
 
 }
+

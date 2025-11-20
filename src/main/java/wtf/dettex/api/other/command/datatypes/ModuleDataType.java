@@ -40,3 +40,4 @@ public enum ModuleDataType implements IDatatypeFor<Module>{
         return Main.getInstance().getModuleRepository().modules();
     }
 }
+

@@ -6,3 +6,4 @@ public class CommandTooManyArgumentsException extends CommandErrorMessageExcepti
         super(String.format("Too many arguments (expected at most %d)", maxArgs));
     }
 }
+

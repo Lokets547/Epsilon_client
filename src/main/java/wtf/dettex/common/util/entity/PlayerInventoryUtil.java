@@ -248,3 +248,4 @@ public class PlayerInventoryUtil implements QuickImports {
         return mc.player.currentScreenHandler.slots.stream();
     }
 }
+

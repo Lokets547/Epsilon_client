@@ -35,3 +35,4 @@ public class FireworkRocketEntityMixin implements QuickImports {
         return original.call(instance);
     }
 }
+

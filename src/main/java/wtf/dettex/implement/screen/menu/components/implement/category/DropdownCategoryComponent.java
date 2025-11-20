@@ -287,3 +287,4 @@ public class DropdownCategoryComponent extends CategoryComponent {
         return PANEL_HEIGHT - HEADER_HEIGHT;
     }
 }
+

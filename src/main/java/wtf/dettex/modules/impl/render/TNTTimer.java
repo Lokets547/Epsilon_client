@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.render;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.client.gui.DrawContext;
@@ -65,3 +64,4 @@ public class TNTTimer extends Module {
         font.drawText(matrix, text, posX, posY + 3);
     }
 }
+

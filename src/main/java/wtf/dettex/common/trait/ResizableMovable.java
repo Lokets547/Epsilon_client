@@ -5,3 +5,4 @@ public interface ResizableMovable {
 
     ResizableMovable size(float width, float height);
 }
+

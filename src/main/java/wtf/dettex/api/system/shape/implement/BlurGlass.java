@@ -105,3 +105,4 @@ public class BlurGlass extends Blur {
         resolution.set(buffer.textureWidth, buffer.textureHeight);
     }
 }
+

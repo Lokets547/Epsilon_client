@@ -109,3 +109,4 @@ public class HotKeys extends AbstractDraggable {
         setHeight(offset);
     }
 }
+

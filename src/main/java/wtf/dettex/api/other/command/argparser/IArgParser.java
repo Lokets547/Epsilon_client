@@ -15,3 +15,4 @@ public interface IArgParser<T> {
         T parseArg(ICommandArgument arg, S state) throws Exception;
     }
 }
+

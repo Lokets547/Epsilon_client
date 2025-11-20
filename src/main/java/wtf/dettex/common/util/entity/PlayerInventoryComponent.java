@@ -47,6 +47,33 @@ public class PlayerInventoryComponent implements QuickImports {
         }
 
         if (script.isFinished() && MovingUtil.hasPlayerMovement()) {
+            // Prefer manual selection first
+            if (ServerUtil.isFunTime()) {
+                script.cleanup().addTickStep(0, () -> {
+                    PlayerInventoryComponent.disableMoveKeys();
+                    PlayerInventoryComponent.rotateToCamera();
+                }).addTickStep(1, () -> {
+                    task.run();
+                    enableMoveKeys();
+                });
+                return;
+            }
+            if (ServerUtil.isCopyTime()) {
+                script.cleanup().addTickStep(0, ()-> {
+                            PlayerInventoryComponent.disableMoveKeys();
+                            PlayerInventoryComponent.rotateToCamera();
+                        }).addTickStep(1, task::run)
+                        .addTickStep(2, PlayerInventoryComponent::enableMoveKeys);
+                return;
+            }
+            if (ServerUtil.isReallyWorld()) {
+                if (mc.player.isOnGround()) {
+                    script.cleanup().addTickStep(0, PlayerInventoryComponent::disableMoveKeys).addTickStep(2, PlayerInventoryComponent::rotateToCamera).addTickStep(3, task::run)
+                            .addTickStep(4, PlayerInventoryComponent::enableMoveKeys);
+                    return;
+                }
+            }
+            // Fallback to detected server brand if manual selection doesn't apply
             switch (ServerUtil.server) {
                 case "FunTime" -> {
                     script.cleanup().addTickStep(0, () -> {

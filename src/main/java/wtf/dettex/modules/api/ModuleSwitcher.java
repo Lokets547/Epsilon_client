@@ -51,3 +51,4 @@ public class ModuleSwitcher implements QuickLogger, QuickImports {
         }
     }
 }
+

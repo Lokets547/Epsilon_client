@@ -8,3 +8,4 @@ import wtf.dettex.common.QuickImports;
 public class InputMixin implements QuickImports {
 
 }
+

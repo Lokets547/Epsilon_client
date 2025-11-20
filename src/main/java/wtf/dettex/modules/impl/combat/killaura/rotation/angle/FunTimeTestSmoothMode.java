@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat.killaura.rotation.angle;
 
-import antidaunleak.api.annotation.Native;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;

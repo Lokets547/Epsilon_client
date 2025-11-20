@@ -27,3 +27,4 @@ public class AltManager {
         alts.remove(alt);
     }
 }
+

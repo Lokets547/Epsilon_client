@@ -10,3 +10,4 @@ public interface ItemStackEntityRenderStateAccessor {
     @Accessor("itemRenderState")
     ItemRenderState dettex$getItemRenderState();
 }
+

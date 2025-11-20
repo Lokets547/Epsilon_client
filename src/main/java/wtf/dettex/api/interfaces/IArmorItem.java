@@ -7,3 +7,4 @@ public interface IArmorItem {
     ArmorMaterial zov_pidarok$getMaterial();
     EquipmentType zov_pidarok$getType();
 }
+

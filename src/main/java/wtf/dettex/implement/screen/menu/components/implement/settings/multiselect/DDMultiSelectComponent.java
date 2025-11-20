@@ -110,7 +110,8 @@ public class DDMultiSelectComponent extends AbstractSettingComponent {
 
     @Override
     public boolean isHover(double mouseX, double mouseY) {
-        return open && isHoveredList(mouseX, mouseY);
+        boolean selectorHover = MathUtil.isHovered(mouseX, mouseY, dropdownListX, y + 14, dropDownListWidth, SELECTOR_HEIGHT);
+        return selectorHover || (open && isHoveredList(mouseX, mouseY));
     }
 
     private void renderSelected(MatrixStack matrices, float innerX, float innerW) {

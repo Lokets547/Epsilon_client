@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.vehicle.BoatEntity;
@@ -57,3 +56,4 @@ public class BoatBoost extends Module {
         wasInBoat = isInBoat;
     }
 }
+

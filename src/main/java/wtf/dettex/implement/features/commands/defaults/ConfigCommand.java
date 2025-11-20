@@ -152,3 +152,4 @@ public class ConfigCommand extends Command {
         return configs;
     }
 }
+

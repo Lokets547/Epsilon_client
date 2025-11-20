@@ -62,3 +62,4 @@ public class ColorPresetComponent extends AbstractComponent {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+

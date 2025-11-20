@@ -98,3 +98,4 @@ public interface ICommandArgument {
      */
     <T, S> boolean is(Class<T> type, Class<S> stateType, S state);
 }
+

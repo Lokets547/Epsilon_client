@@ -15,3 +15,4 @@ public class HandledScreenEvent implements Event {
     Slot slotHover;
     int backgroundWidth, backgroundHeight;
 }
+

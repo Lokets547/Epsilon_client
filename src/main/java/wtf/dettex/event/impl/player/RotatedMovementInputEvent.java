@@ -14,3 +14,4 @@ import wtf.dettex.event.events.Event;
 public class RotatedMovementInputEvent implements Event {
     float forward, sideways;
 }
+

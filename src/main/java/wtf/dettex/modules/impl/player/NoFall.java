@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.player;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import wtf.dettex.event.EventHandler;
@@ -33,4 +32,5 @@ public class NoFall extends Module {
         mc.player.fallDistance = 0.0F;
     }
 }
+
 

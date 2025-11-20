@@ -20,3 +20,4 @@ public class CommandUnhandledException extends RuntimeException implements IComm
     public void handle(ICommand command, List<ICommandArgument> args) {
     }
 }
+

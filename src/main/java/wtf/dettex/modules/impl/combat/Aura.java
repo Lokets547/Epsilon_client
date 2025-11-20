@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -87,11 +86,8 @@ public class Aura extends Module {
 //    BooleanSetting aiTraining = new BooleanSetting("AI Training", "Log dataset for AI rotation training").setValue(false);
 //    GroupSetting aiGroup = new GroupSetting("AI", "AI related settings").settings(aiTraining).setValue(false);
 
-    SelectSetting sprintResetMode = new SelectSetting("Reset Type", "Selects the sprint reset type")
+    SelectSetting sprintResetMode = new SelectSetting("Sprint Reset", "Selects the sprint reset type")
             .value("Rage", "Normal", "Legit").selected("Normal");
-
-    GroupSetting sprintReset = new GroupSetting("Sprint Reset", "Resets the sprint before attack")
-            .settings(sprintResetMode).setValue(true);
 
     BooleanSetting multiPointMode = new BooleanSetting("MultiPoint", "Random hit part of target").setValue(true);
 
@@ -106,7 +102,7 @@ public class Aura extends Module {
         super("Aura", ModuleCategory.COMBAT);
         setup(targetType, attackSetting, correctionGroup, aimMode, targetEspGroup,
                 //aiGroup,
-                sprintReset, maxDistance, extraDistance, onlySpaceCrits, multiPointMode);
+                sprintResetMode, maxDistance, extraDistance, onlySpaceCrits, multiPointMode);
         if(aimMode.isSelected("Snap")) {
 
             extraDistance.setValue(0.0F);
@@ -123,7 +119,7 @@ public class Aura extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onMoveInput(EventMoveInput1 e) {
         if (!isState() || target == null) return;
         if (!correctionGroup.isValue()) return;
@@ -146,9 +142,7 @@ public class Aura extends Module {
         e.setForward(rotatedForward);
         e.setStrafe(rotatedStrafe);
 
-        if (rotatedForward > 0.0f && mc.player != null && !sprintReset.isValue() && correctionType.isSelected("Targeted")) {
-            mc.player.setSprinting(true);
-        }
+        // Sprint Reset is always enabled now; no conditional sprint enabling here.
     }
 
     @EventHandler
@@ -173,7 +167,7 @@ public class Aura extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPacket(PacketEvent e) {
         if (e.getPacket() instanceof EntityStatusS2CPacket status && status.getStatus() == 30) {
             Entity entity = status.getEntity(mc.world);
@@ -184,7 +178,7 @@ public class Aura extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onRotationUpdate(RotationUpdateEvent e) {
         switch (e.getType()) {
             case EventType.PRE -> {
@@ -208,7 +202,7 @@ public class Aura extends Module {
         targetSelector.validateTarget(filter::isValid);
         return targetSelector.getCurrentTarget();
     }
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     private void rotateToTarget(AttackPerpetrator.AttackPerpetratorConfigurable config) {
         AttackHandler attackHandler = Main.getInstance().getAttackPerpetrator().getAttackHandler();
         RotationController controller = RotationController.INSTANCE;

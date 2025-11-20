@@ -99,3 +99,4 @@ public class WindowManager extends AbstractComponent {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

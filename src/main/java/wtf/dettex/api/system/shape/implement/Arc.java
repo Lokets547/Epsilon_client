@@ -55,3 +55,4 @@ public class Arc implements Shape, QuickImports {
         RenderSystem.disableBlend();
     }
 }
+

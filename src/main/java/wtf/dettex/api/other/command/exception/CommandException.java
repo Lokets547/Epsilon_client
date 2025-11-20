@@ -10,3 +10,4 @@ public abstract class CommandException extends Exception implements ICommandExce
         super(reason, cause);
     }
 }
+

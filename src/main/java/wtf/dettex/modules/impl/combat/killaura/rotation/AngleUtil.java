@@ -37,3 +37,4 @@ public class AngleUtil implements QuickImports {
     public Angle cameraAngle() {return new Angle(mc.player.getYaw(), mc.player.getPitch());}
 
 }
+

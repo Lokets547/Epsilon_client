@@ -142,3 +142,4 @@ public class ChangeLogScreen extends Screen implements QuickImports {
         listH = panelH - (listY - panelY) - padding;
     }
 }
+

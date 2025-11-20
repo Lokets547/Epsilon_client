@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -159,3 +158,4 @@ public class Phase extends Module {
         return p != null && p.state && p.mode.isSelected("Shape");
     }
 }
+

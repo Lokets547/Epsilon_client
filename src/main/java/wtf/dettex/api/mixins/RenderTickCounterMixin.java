@@ -38,3 +38,4 @@ public abstract class RenderTickCounterMixin {
         cir.setReturnValue(capped);
     }
 }
+

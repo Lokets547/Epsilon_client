@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -26,7 +25,7 @@ public class ServerRPSpoofer extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPacket(PacketEvent e) {
         if (e.getPacket() instanceof ResourcePackSendS2CPacket) {
             currentAction = ResourcePackAction.ACCEPT;
@@ -36,7 +35,7 @@ public class ServerRPSpoofer extends Module {
 
     
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
         if (networkHandler != null) {
@@ -61,3 +60,4 @@ public class ServerRPSpoofer extends Module {
         ACCEPT, SEND, WAIT;
     }
 }
+

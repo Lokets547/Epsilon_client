@@ -21,3 +21,4 @@ public interface ICommandManager {
 
     Stream<String> tabComplete(String prefix);
 }
+

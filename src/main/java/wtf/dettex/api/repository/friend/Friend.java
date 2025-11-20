@@ -10,3 +10,4 @@ import lombok.Setter;
 public class Friend {
     String name;
 }
+

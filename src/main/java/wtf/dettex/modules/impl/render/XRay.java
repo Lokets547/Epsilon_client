@@ -73,3 +73,4 @@ public class XRay extends Module {
         return state.getBlock().asItem().toString().replace("minecraft:", "").replace("_ore", "").replace("_", " ");
     }
 }
+

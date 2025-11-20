@@ -58,3 +58,4 @@ public abstract class Animation implements AnimationCalculation {
                 : calculation(counter.getTime()) * value;
     }
 }
+

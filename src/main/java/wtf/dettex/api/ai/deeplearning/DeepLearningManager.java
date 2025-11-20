@@ -21,3 +21,4 @@ public class DeepLearningManager {
         this.speedModel.loadFromResources("/assets/minecraft/ai/tf-0100.params");
     }
 }
+

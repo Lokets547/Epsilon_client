@@ -45,3 +45,4 @@ public class ChatScreenMixin extends Screen implements QuickImports {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

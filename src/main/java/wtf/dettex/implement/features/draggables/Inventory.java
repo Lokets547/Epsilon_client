@@ -56,3 +56,4 @@ public class Inventory extends AbstractDraggable {
         }
     }
 }
+

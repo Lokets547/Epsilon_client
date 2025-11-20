@@ -153,3 +153,4 @@ public class ScriptManager {
         return str == null || str.trim().isEmpty();
     }
 }
+

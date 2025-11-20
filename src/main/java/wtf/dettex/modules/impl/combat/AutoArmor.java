@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.enchantment.Enchantment;
@@ -37,7 +36,7 @@ public class AutoArmor extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         if (PlayerInventoryUtil.isServerScreen()) return;
         if (!PlayerInventoryComponent.script.isFinished()) return;
@@ -117,3 +116,4 @@ public class AutoArmor extends Module {
         };
     }
 }
+

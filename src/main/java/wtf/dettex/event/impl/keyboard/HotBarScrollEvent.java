@@ -14,3 +14,4 @@ import wtf.dettex.event.events.callables.EventCancellable;
 public class HotBarScrollEvent extends EventCancellable {
     private double horizontal, vertical;
 }
+

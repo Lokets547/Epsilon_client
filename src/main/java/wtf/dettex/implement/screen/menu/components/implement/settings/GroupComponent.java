@@ -67,3 +67,4 @@ public class GroupComponent extends AbstractSettingComponent {
         }
     }
 }
+

@@ -23,3 +23,4 @@ public class Alt {
         return username.toLowerCase().hashCode();
     }
 }
+

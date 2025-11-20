@@ -43,3 +43,4 @@ public abstract class EntityMixin implements QuickImports {
         return original;
     }
 }
+

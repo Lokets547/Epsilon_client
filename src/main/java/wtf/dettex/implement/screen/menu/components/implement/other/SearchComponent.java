@@ -265,3 +265,4 @@ public class SearchComponent extends AbstractComponent {
         }
     }
 }
+

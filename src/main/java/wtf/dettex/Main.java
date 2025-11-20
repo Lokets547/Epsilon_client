@@ -1,6 +1,5 @@
 package wtf.dettex;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -70,7 +69,7 @@ public class Main implements ModInitializer {
 
 
     @Override
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onInitialize() {
         instance = this;
         initClientInfoProvider();
@@ -114,7 +113,6 @@ public class Main implements ModInitializer {
         commandDispatcher = new CommandDispatcher(eventManager);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void initClientInfoProvider() {
         File clientDirectory = new File(MinecraftClient.getInstance().runDirectory, "\\Dettex\\");
         File filesDirectory = new File(clientDirectory, "\\files\\");
@@ -122,7 +120,6 @@ public class Main implements ModInitializer {
         clientInfoProvider = new ClientInfo("Dettex", "PixikDev", "ADMIN", clientDirectory, filesDirectory, moduleFilesDirectory);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void initFileManager() {
         DirectoryCreator directoryCreator = new DirectoryCreator();
         directoryCreator.createDirectories(clientInfoProvider.clientDir(), clientInfoProvider.filesDir(), clientInfoProvider.configsDir());

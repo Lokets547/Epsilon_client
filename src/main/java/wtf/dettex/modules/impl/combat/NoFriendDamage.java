@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import wtf.dettex.api.repository.friend.FriendUtils;
@@ -21,4 +20,5 @@ public class NoFriendDamage extends Module {
         e.setCancelled(FriendUtils.isFriend(e.getEntity()));
     }
 }
+
 

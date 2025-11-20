@@ -62,3 +62,4 @@ public abstract class AbstractComponent implements Component, QuickImports, Resi
         return false;
     }
 }
+

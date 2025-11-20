@@ -29,3 +29,4 @@ public class ReallyWorldSmoothMode extends AngleSmoothMode {
         return new Vec3d(0, 0, 0);
     }
 }
+

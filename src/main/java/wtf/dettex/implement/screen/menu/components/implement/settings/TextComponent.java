@@ -285,3 +285,4 @@ public class TextComponent extends AbstractSettingComponent {
         }
     }
 }
+

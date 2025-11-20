@@ -163,3 +163,4 @@ public class Notifications extends AbstractDraggable {
         INVENTORY, SHULKER, SHULKER_INVENTORY
     }
 }
+

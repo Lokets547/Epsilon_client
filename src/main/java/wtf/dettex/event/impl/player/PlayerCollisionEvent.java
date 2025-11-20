@@ -13,3 +13,4 @@ public class PlayerCollisionEvent extends EventCancellable {
     private Block block;
 
 }
+

@@ -80,3 +80,4 @@ public class RaytracingUtil implements QuickImports {
         return box.contains(cameraVec) || box.raycast(cameraVec,cameraVec.add(clientVec.multiply(range))).isPresent();
     }
 }
+

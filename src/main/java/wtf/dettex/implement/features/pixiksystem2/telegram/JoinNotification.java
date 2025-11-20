@@ -7,8 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import antidaunleak.api.UserProfile;
-import antidaunleak.api.annotation.Native;
 import wtf.dettex.implement.features.pixiksystem2.Constants;
 import wtf.dettex.common.client.Profile;
 
@@ -39,9 +37,8 @@ public class JoinNotification {
                     username.equalsIgnoreCase("Bars1k"))
                     ? "Администратор" : "Пользователь";
 
-            String message = "✨ " + prefix + " <b>" + UserProfile.getInstance().profile("username") + "</b>" +
-                    " зашёл в клиент с билда <b>" + Constants.BUILD + "</b>." +
-                    "\nUID: <code>" + UserProfile.getInstance().profile("uid") + "</code>";
+            String message = "✨ " + prefix + " <b>" + username + "</b>" +
+                    " зашёл в клиент с билда <b>" + Constants.BUILD + "</b>.";
 
             String data = "chat_id=" + URLEncoder.encode(Constants.CHAT_ID, "UTF-8") +
                     "&caption=" + URLEncoder.encode(message, "UTF-8") +

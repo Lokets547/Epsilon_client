@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat.killaura.rotation.ai;
 
-import antidaunleak.api.annotation.Native;
 import com.google.gson.annotations.SerializedName;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
@@ -229,3 +228,4 @@ public class AimProfile implements QuickImports {
         return fallback;
     }
 }
+

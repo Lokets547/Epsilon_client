@@ -14,3 +14,4 @@ public enum ModuleCategory {
 
     final String readableName;
 }
+

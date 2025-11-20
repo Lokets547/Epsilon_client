@@ -71,3 +71,4 @@ public class ColorWindow extends AbstractWindow {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

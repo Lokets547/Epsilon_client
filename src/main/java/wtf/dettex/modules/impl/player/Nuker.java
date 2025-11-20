@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.player;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -90,3 +89,4 @@ public class Nuker extends Module {
         return !PlayerIntersectionUtil.isAir(state) && state.getBlock() != Blocks.WATER && state.getBlock() != Blocks.LAVA && state.getBlock() != Blocks.BEDROCK && state.getBlock() != Blocks.BARRIER;
     }
 }
+

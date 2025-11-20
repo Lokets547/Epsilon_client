@@ -8,3 +8,4 @@ import java.util.stream.Stream;
 public interface IDatatype extends QuickImports {
     Stream<String> tabComplete(IDatatypeContext ctx) throws CommandException;
 }
+

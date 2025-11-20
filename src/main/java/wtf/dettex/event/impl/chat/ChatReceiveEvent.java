@@ -13,3 +13,4 @@ import wtf.dettex.event.events.Event;
 public class ChatReceiveEvent implements Event {
     Text message;
 }
+

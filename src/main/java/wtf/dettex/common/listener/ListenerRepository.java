@@ -24,3 +24,4 @@ public class ListenerRepository {
         Arrays.stream(listeners).forEach(listener -> Main.getInstance().getEventManager().register(listener));
     }
 }
+

@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.block.Block;
@@ -108,7 +107,7 @@ public class Speed extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         if (mc.player == null || mc.world == null) return;
 
@@ -462,3 +461,4 @@ public class Speed extends Module {
         return MathHelper.wrapDegrees(yaw + 180.0F);
     }
 }
+

@@ -208,3 +208,4 @@ public class Trails extends Module {
         }
     }
 }
+

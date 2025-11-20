@@ -28,3 +28,4 @@ public abstract class HandledScreenMixin {
         EventManager.callEvent(new HandledScreenEvent(context, focusedSlot, backgroundWidth, backgroundHeight));
     }
 }
+

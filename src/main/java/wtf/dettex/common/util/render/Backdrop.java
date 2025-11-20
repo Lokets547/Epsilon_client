@@ -38,3 +38,4 @@ public final class Backdrop {
         return new Vector2f(resolution);
     }
 }
+

@@ -206,3 +206,4 @@ public class ChinaHat extends Module {
         return false;
     }
 }
+

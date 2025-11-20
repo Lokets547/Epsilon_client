@@ -26,3 +26,4 @@ public class SettingComponent extends AbstractComponent {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+

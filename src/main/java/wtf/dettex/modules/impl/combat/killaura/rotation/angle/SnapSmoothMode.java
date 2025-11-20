@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat.killaura.rotation.angle;
 
-import antidaunleak.api.annotation.Native;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -42,3 +41,4 @@ public class SnapSmoothMode extends AngleSmoothMode {
         return new Vec3d(0.12F, 0.12F, 0.12F);
     }
 }
+

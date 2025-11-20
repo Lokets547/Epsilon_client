@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.item.BlockItem;
@@ -276,3 +275,4 @@ public class Spider extends Module {
         return -1;
     }
 }
+

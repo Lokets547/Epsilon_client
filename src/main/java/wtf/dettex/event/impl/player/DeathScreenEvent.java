@@ -12,3 +12,4 @@ import wtf.dettex.event.events.Event;
 public class DeathScreenEvent implements Event {
     int ticksSinceDeath;
 }
+

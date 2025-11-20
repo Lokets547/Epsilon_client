@@ -5,3 +5,4 @@ public interface AnimationCalculation {
         return 0;
     }
 }
+

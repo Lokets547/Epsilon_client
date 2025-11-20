@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -127,7 +126,7 @@ public class AutoWeb extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         BlockPos first = getSequentialPos();
         if (first == null) return;
@@ -268,3 +267,4 @@ public class AutoWeb extends Module {
                 .orElse(null);
     }
 }
+

@@ -57,3 +57,4 @@ public class CheckComponent extends AbstractComponent {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+

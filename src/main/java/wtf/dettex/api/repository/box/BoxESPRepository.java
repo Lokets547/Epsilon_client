@@ -76,3 +76,4 @@ public class BoxESPRepository implements QuickImports, QuickLogger {
         boxes.put(pos, new Pair<>(shape, color));
     }
 }
+

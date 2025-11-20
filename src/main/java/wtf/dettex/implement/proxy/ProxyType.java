@@ -6,3 +6,4 @@ public enum ProxyType {
     SOCKS5,
     HTTP
 }
+

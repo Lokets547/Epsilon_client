@@ -257,3 +257,4 @@ public class PanelCategoryComponent extends CategoryComponent {
         }
     }
 }
+

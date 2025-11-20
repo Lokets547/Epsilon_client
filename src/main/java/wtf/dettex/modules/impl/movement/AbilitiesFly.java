@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.util.math.Vec3d;
@@ -22,7 +21,7 @@ public class AbilitiesFly extends Module {
     }
     
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onMove(MoveEvent e) {
         if (mc.player != null && mc.player.getAbilities().flying) {
             float speed = speedSetting.getValue();
@@ -32,3 +31,4 @@ public class AbilitiesFly extends Module {
         }
     }
 }
+

@@ -135,3 +135,4 @@ public class Render2DUtil implements QuickImports {
 
     public record Quad(float x, float y, float width, float height, int color) {}
 }
+

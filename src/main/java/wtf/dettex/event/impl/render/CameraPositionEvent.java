@@ -15,3 +15,4 @@ import wtf.dettex.event.events.Event;
 public class CameraPositionEvent implements Event {
     Vec3d pos;
 }
+

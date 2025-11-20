@@ -84,20 +84,14 @@ public class GroupWindow extends AbstractWindow {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         draggable(MathUtil.isHovered(mouseX, mouseY, x, y, width, 19) && button == 0);
 
-        boolean isAnyComponentHovered = components
-                .stream()
-                .anyMatch(abstractComponent -> abstractComponent.isHover(mouseX, mouseY));
-
-        if (isAnyComponentHovered) {
-            components.forEach(abstractComponent -> {
-                if (abstractComponent.isHover(mouseX, mouseY)) {
-                    abstractComponent.mouseClicked(mouseX, mouseY, button);
-                }
-            });
-            return super.mouseClicked(mouseX, mouseY, button);
+        // Обрабатываем клики только по компонентам, на которые наведен курсор
+        for (AbstractSettingComponent component : components) {
+            if (component.isHover(mouseX, mouseY)) {
+                component.mouseClicked(mouseX, mouseY, button);
+                break;
+            }
         }
 
-        components.forEach(abstractComponent -> abstractComponent.mouseClicked(mouseX, mouseY, button));
         return super.mouseClicked(mouseX, mouseY, button);
     }
 

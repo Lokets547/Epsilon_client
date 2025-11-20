@@ -158,3 +158,4 @@ public class ProxyScreen extends Screen {
         System.clearProperty("socksProxyPort");
     }
 }
+

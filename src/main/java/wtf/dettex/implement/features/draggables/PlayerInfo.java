@@ -52,3 +52,4 @@ public class PlayerInfo extends AbstractDraggable {
         font.drawString(context.getMatrices(), xyz, (int) (boxX + paddingX), (int) (boxY + paddingY + 6.5f), ColorUtil.getText());
     }
 }
+

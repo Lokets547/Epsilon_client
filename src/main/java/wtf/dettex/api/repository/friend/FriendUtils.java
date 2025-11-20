@@ -43,3 +43,4 @@ public class FriendUtils {
         friends.clear();
     }
 }
+

@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.render;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -104,3 +103,4 @@ public class BetterMinecraft extends Module {
         return animationTargets.getSelected();
     }
 }
+

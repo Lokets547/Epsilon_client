@@ -202,3 +202,4 @@ public class PlayerIntersectionUtil implements QuickImports {
     public boolean isChat(Screen screen) {return screen instanceof ChatScreen;}
     public boolean nullCheck() {return mc.player == null || mc.world == null;}
 }
+

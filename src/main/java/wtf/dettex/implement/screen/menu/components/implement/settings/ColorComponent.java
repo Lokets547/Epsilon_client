@@ -62,3 +62,4 @@ public class ColorComponent extends AbstractSettingComponent {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+

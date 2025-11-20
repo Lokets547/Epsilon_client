@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +26,7 @@ public class HitBoxModule extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onBoundingBoxControl(BoundingBoxControlEvent event) {
         if (event.getEntity() instanceof LivingEntity living) {
             Box box = event.getBox();
@@ -44,3 +43,4 @@ public class HitBoxModule extends Module {
         }
     }
 }
+

@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.client.option.Perspective;
@@ -96,3 +95,4 @@ public class DebugCamera extends Module {
         mc.options.setPerspective(Perspective.FIRST_PERSON);
     }
 }
+

@@ -29,3 +29,4 @@ public class BackgroundComponent extends AbstractComponent {
         Fonts.getSize(16).drawString(matrix, MenuScreen.INSTANCE.getCategory().getReadableName(), x + 95, y + 13, 0xFFD4D6E1);
     }
 }
+

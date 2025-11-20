@@ -24,3 +24,4 @@ public abstract class CommandInvalidArgumentException extends CommandErrorMessag
         );
     }
 }
+

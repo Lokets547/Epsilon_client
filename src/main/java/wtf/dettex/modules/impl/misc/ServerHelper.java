@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.AccessLevel;
@@ -606,3 +605,4 @@ public class ServerHelper extends Module {
                               double timeOpen, double timeEnd) {
     }
 }
+

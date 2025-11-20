@@ -6,3 +6,4 @@ import wtf.dettex.event.events.Event;
 
 public record BlockCollisionEvent(BlockPos blockPos, BlockState state) implements Event {}
 
+

@@ -1,6 +1,5 @@
 package wtf.dettex.implement.features.draggables;
 
-import antidaunleak.api.UserProfile;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -75,8 +74,8 @@ public class Watermark extends AbstractDraggable {
         MatrixStack matrix = e.getMatrices();
         FontRenderer font = Fonts.getSize(14, Fonts.Type.DEFAULT);
 
-        String username = UserProfile.getInstance().profile("username");
-        String roleText = "Developer";
+        String username = "Lokets547";
+        String roleText = "developer";
         String fpsText = fpsCount + " FPS";
         int ping = Math.max(fetchPing(), 0);
         String pingText = ping + " MS";
@@ -360,15 +359,15 @@ public class Watermark extends AbstractDraggable {
             if (!insideCheckbox) continue;
 
             switch (i) {
-            case 0 -> showClient = !showClient;
-            case 1 -> showRole = !showRole;
-            case 2 -> showUsername = !showUsername;
-            case 3 -> showTime = !showTime;
-            case 4 -> showCoords = !showCoords;
-            case 5 -> showPing = !showPing;
-            case 6 -> showFps = !showFps;
-            case 7 -> showTps = !showTps;
-            case 8 -> showBps = !showBps;
+                case 0 -> showClient = !showClient;
+                case 1 -> showRole = !showRole;
+                case 2 -> showUsername = !showUsername;
+                case 3 -> showTime = !showTime;
+                case 4 -> showCoords = !showCoords;
+                case 5 -> showPing = !showPing;
+                case 6 -> showFps = !showFps;
+                case 7 -> showTps = !showTps;
+                case 8 -> showBps = !showBps;
             }
 
             return true;
@@ -531,3 +530,4 @@ public class Watermark extends AbstractDraggable {
         return entry != null ? entry.getLatency() : 0;
     }
 }
+

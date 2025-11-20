@@ -7,3 +7,4 @@ public interface Logger {
     void minecraftLog(Text... components);
 
 }
+

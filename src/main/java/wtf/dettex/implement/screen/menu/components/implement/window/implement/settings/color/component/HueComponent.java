@@ -76,3 +76,4 @@ public class HueComponent extends AbstractComponent {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

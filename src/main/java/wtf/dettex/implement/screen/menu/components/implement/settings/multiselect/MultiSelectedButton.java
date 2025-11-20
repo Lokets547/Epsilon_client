@@ -73,3 +73,4 @@ public class MultiSelectedButton extends AbstractComponent {
         selected.sort(Comparator.comparingInt(list::indexOf));
     }
 }
+

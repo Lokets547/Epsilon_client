@@ -10,3 +10,4 @@ public class DecelerateAnimation extends Animation {
         return 1 - (x - 1) * (x - 1);
     }
 }
+
