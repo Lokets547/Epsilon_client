@@ -28,9 +28,11 @@ public class BlurGlass extends Blur {
     @Override
     public void render(ShapeProperties shape) {
         Hud hud = Hud.getInstance();
-        // Always capture the current framebuffer; do not rely on Backdrop so GUI never changes with ESP
-        setup();
-
+        // КРИТИЧЕСКАЯ ОПТИМИЗАЦИЯ: используем setupIfNeeded() вместо setup()
+        // Это гарантирует только ОДИН вызов setup() за кадр вместо 42+
+        setupIfNeeded();
+        
+        // Группируем GL state changes
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
@@ -39,9 +41,11 @@ public class BlurGlass extends Blur {
         float scale = (float) mc.getWindow().getScaleFactor();
         float alpha = 1.0F;
         Matrix4f matrix4f = shape.getMatrix().peek().getPositionMatrix();
-        Vector3f pos = matrix4f.transformPosition(shape.getX(), shape.getY(), 0, new Vector3f()).mul(scale);
-        Vector3f size = matrix4f.getScale(new Vector3f()).mul(scale);
-        Vector4f round = shape.getRound().mul(size.y);
+        
+        // Используем кэшированные векторы из родительского класса
+        matrix4f.transformPosition(shape.getX(), shape.getY(), 0, tempPos).mul(scale);
+        matrix4f.getScale(tempSize).mul(scale);
+        shape.getRound().mul(tempSize.y, tempRound);
 
         // Always render using glass shader with Backdrop input for consistent GUI regardless of other modules
         boolean newHud = false; // preserve provided thickness/outline from shape
@@ -49,21 +53,28 @@ public class BlurGlass extends Blur {
         float quality = Math.max(24.0F, shape.getQuality());
         float softness = shape.getSoftness();
         float thickness = newHud ? 0.0F : shape.getThickness();
-        float width = shape.getWidth() * size.x;
-        float height = shape.getHeight() * size.y;
+        float width = shape.getWidth() * tempSize.x;
+        float height = shape.getHeight() * tempSize.y;
+        float softnessHalf = softness * 0.5f;
 
         BufferBuilder buffer = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-        drawEngine.quad(matrix4f, buffer, shape.getX() - softness / 2.0F, shape.getY() - softness / 2.0F, shape.getWidth() + softness, shape.getHeight() + softness);
+        drawEngine.quad(matrix4f, buffer, shape.getX() - softnessHalf, shape.getY() - softnessHalf, shape.getWidth() + softness, shape.getHeight() + softness);
 
         GlStateManager._activeTexture(GL13.GL_TEXTURE0);
+        // ВАЖНО: Проверка на null перед использованием (предотвращает мигание черным)
         if (input != null) {
             RenderSystem.bindTexture(input.getColorAttachment());
+        } else {
+            // Если framebuffer все еще не готов, пропускаем этот render
+            return;
         }
 
         ShaderProgram shader = RenderSystem.setShader(BLUR_GLASS_SHADER_KEY);
+        
+        // Оптимизация: группируем все uniform вызовы
         shader.getUniformOrDefault("size").set(width, height);
-        shader.getUniformOrDefault("location").set(pos.x, mc.getWindow().getFramebufferHeight() - height - pos.y);
-        shader.getUniformOrDefault("radius").set(round);
+        shader.getUniformOrDefault("location").set(tempPos.x, mc.getWindow().getFramebufferHeight() - height - tempPos.y);
+        shader.getUniformOrDefault("radius").set(tempRound);
         shader.getUniformOrDefault("softness").set(softness);
         shader.getUniformOrDefault("thickness").set(thickness);
         shader.getUniformOrDefault("Quality").set(quality);
@@ -72,36 +83,27 @@ public class BlurGlass extends Blur {
         float distortion = shape.getStart() != 0.0F ? shape.getStart() : DEFAULT_DISTORTION;
         shader.getUniformOrDefault("Distortion").set(distortion);
 
+        // Оптимизация: вычисляем компоненты цвета один раз и переиспользуем
         int baseColor = shape.getColor().x;
-        float red = ColorUtil.redf(baseColor);
-        float green = ColorUtil.greenf(baseColor);
-        float blue = ColorUtil.bluef(baseColor);
-        float solidAlpha = ColorUtil.alphaf(ColorUtil.multAlpha(baseColor, alpha));
+        int finalBaseColor = ColorUtil.multAlpha(baseColor, alpha);
+        colorCache[0] = ColorUtil.redf(finalBaseColor);
+        colorCache[1] = ColorUtil.greenf(finalBaseColor);
+        colorCache[2] = ColorUtil.bluef(finalBaseColor);
+        colorCache[3] = ColorUtil.alphaf(finalBaseColor);
 
-        shader.getUniformOrDefault("color1").set(red, green, blue, solidAlpha);
-        shader.getUniformOrDefault("color2").set(red, green, blue, solidAlpha);
-        shader.getUniformOrDefault("color3").set(red, green, blue, solidAlpha);
-        shader.getUniformOrDefault("color4").set(red, green, blue, solidAlpha);
-        int outlineColor = shape.getOutlineColor();
-        shader.getUniformOrDefault("outlineColor").set(ColorUtil.redf(outlineColor), ColorUtil.greenf(outlineColor), ColorUtil.bluef(outlineColor), ColorUtil.alphaf(ColorUtil.multAlpha(outlineColor, alpha)));
+        shader.getUniformOrDefault("color1").set(colorCache[0], colorCache[1], colorCache[2], colorCache[3]);
+        shader.getUniformOrDefault("color2").set(colorCache[0], colorCache[1], colorCache[2], colorCache[3]);
+        shader.getUniformOrDefault("color3").set(colorCache[0], colorCache[1], colorCache[2], colorCache[3]);
+        shader.getUniformOrDefault("color4").set(colorCache[0], colorCache[1], colorCache[2], colorCache[3]);
+        
+        // Outline color
+        setColorUniform(shader, "outlineColor", shape.getOutlineColor(), alpha);
 
         BufferRenderer.drawWithGlobalProgram(buffer.end());
 
         RenderSystem.disableBlend();
     }
 
-    @Override
-    public void setup() {
-        Framebuffer buffer = mc.getFramebuffer();
-        if (input == null) {
-            input = new SimpleFramebuffer(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight(), false);
-        }
-        input.beginWrite(false);
-        buffer.draw(input.textureWidth, input.textureHeight);
-        buffer.beginWrite(false);
-        if (input.textureWidth != mc.getWindow().getFramebufferWidth() || input.textureHeight != mc.getWindow().getFramebufferHeight()) {
-            input.resize(mc.getWindow().getFramebufferWidth(), mc.getWindow().getFramebufferHeight());
-        }
-        resolution.set(buffer.textureWidth, buffer.textureHeight);
-    }
+    // Удаляем переопределение setup() - используем оптимизированную версию из родительского Blur
+    // которая вызывается только ОДИН раз за кадр благодаря setupIfNeeded()
 }

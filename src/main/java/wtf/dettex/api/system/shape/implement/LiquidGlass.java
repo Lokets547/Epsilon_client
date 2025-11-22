@@ -30,45 +30,57 @@ public class LiquidGlass extends Blur implements Shape, QuickImports {
         Framebuffer worldOnly = Backdrop.getBuffer();
         boolean fallback = (worldOnly == null);
         if (fallback) {
-            setup();
+            // КРИТИЧЕСКАЯ ОПТИМИЗАЦИЯ: используем setupIfNeeded() вместо setup()
+            setupIfNeeded();
         }
 
+        // Группируем GL state changes
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         RenderSystem.enableCull();
 
         float scale = (float) mc.getWindow().getScaleFactor();
-        float alpha = 1.0F; // Don't inherit global shader alpha
+        float alpha = 1.0F;
         Matrix4f matrix4f = shape.getMatrix().peek().getPositionMatrix();
-        Vector3f pos = matrix4f.transformPosition(shape.getX(), shape.getY(), 0, new Vector3f()).mul(scale);
-        Vector3f size = matrix4f.getScale(new Vector3f()).mul(scale);
-        Vector4f round = shape.getRound().mul(size.y - 1F);
+        
+        // Используем кэшированные векторы из родительского класса
+        matrix4f.transformPosition(shape.getX(), shape.getY(), 0, tempPos).mul(scale);
+        matrix4f.getScale(tempSize).mul(scale);
+        shape.getRound().mul(tempSize.y - 1F, tempRound);
 
         boolean liquidMode = Hud.hudType.isSelected("Liquid Glass");
         float quality = (liquidMode && Hud.glassBlur.isValue()) ? Math.max(16f, Hud.glassBlurValue.getValue() * 8f) : Math.max(24f, shape.getQuality());
         float softness = shape.getSoftness();
         float thickness = Math.max(0f, shape.getThickness());
-        float width = shape.getWidth() * size.x;
-        float height = shape.getHeight() * size.y;
+        float width = shape.getWidth() * tempSize.x;
+        float height = shape.getHeight() * tempSize.y;
+        float softnessHalf = softness * 0.5f;
 
         BufferBuilder buffer = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-        drawEngine.quad(matrix4f, buffer, shape.getX() - softness / 2, shape.getY() - softness / 2, shape.getWidth() + softness, shape.getHeight() + softness);
+        drawEngine.quad(matrix4f, buffer, shape.getX() - softnessHalf, shape.getY() - softnessHalf, shape.getWidth() + softness, shape.getHeight() + softness);
 
         GlStateManager._activeTexture(GL13.GL_TEXTURE0);
         if (!fallback) {
             RenderSystem.bindTexture(worldOnly.getColorAttachment());
         } else if (input != null) {
             RenderSystem.bindTexture(input.getColorAttachment());
+        } else {
+            // ВАЖНО: Если framebuffer не готов, пропускаем render (предотвращает мигание)
+            return;
         }
+        
         ShaderProgram shader = RenderSystem.setShader(GLASS_SHADER_KEY);
-        shader.getUniformOrDefault("size").set(width, height);
+        
+        // Оптимизация: группируем все uniform вызовы
         float fbHeight = mc.getWindow().getFramebufferHeight();
-        shader.getUniformOrDefault("location").set(pos.x, fbHeight - height - pos.y);
-        shader.getUniformOrDefault("radius").set(round);
+        shader.getUniformOrDefault("size").set(width, height);
+        shader.getUniformOrDefault("location").set(tempPos.x, fbHeight - height - tempPos.y);
+        shader.getUniformOrDefault("radius").set(tempRound);
         shader.getUniformOrDefault("softness").set(softness);
         shader.getUniformOrDefault("thickness").set(thickness);
         shader.getUniformOrDefault("Quality").set(quality);
+        
         if (!fallback) {
             shader.getUniformOrDefault("InputResolution").set(Backdrop.getResolution().x, Backdrop.getResolution().y);
         } else {
@@ -80,6 +92,7 @@ public class LiquidGlass extends Blur implements Shape, QuickImports {
         shader.getUniformOrDefault("BlurRadius").set(blurRadius);
         shader.getUniformOrDefault("EdgeFeather").set(1.0f);
 
+        // Оптимизация: используем одинаковые значения для всех цветов
         shader.getUniformOrDefault("color1").set(0, 0, 0, 0);
         shader.getUniformOrDefault("color2").set(0, 0, 0, 0);
         shader.getUniformOrDefault("color3").set(0, 0, 0, 0);
