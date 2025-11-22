@@ -31,6 +31,9 @@ public class ItemHelper extends Module {
         keyBindings.add(new KeyBind(Items.GOLDEN_APPLE, new BindSetting("Golden Apple", "Use golden apple")));
         keyBindings.add(new KeyBind(Items.CHORUS_FRUIT, new BindSetting("Chorus Fruit", "Use chorus fruit")));
         keyBindings.add(new KeyBind(Items.GOLDEN_CARROT, new BindSetting("Golden Carrot", "Use golden carrot")));
+        keyBindings.add(new KeyBind(Items.BOW, new BindSetting("Bow", "Use bow")));
+        keyBindings.add(new KeyBind(Items.CROSSBOW, new BindSetting("Crossbow", "Use crossbow")));
+        keyBindings.add(new KeyBind(Items.TRIDENT, new BindSetting("Trident", "Use trident")));
         keyBindings.forEach(bind -> setup(bind.setting));
         keyBindings.forEach(bind -> states.put(bind, new SwapState()));
     }

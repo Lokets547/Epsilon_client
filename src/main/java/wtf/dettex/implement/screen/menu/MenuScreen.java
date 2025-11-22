@@ -33,6 +33,8 @@ public class MenuScreen extends Screen implements QuickImports {
     private CategoryContainerComponent panelContainer;
 
     private final List<DropdownCategoryComponent> dropdownComponents = new ArrayList<>();
+    private ThemesPanelComponent themesPanel;
+    private ConfigsPanelComponent configsPanel;
     public final Animation animation = new DecelerateAnimation().setMs(200).setValue(1);
     public ModuleCategory category = ModuleCategory.COMBAT;
     public int x, y, width, height;
@@ -64,6 +66,11 @@ public class MenuScreen extends Screen implements QuickImports {
             dropdownComponents.add(component);
             components.add(component);
         }
+        // extra panels: Themes and Configs
+        themesPanel = new ThemesPanelComponent();
+        configsPanel = new ConfigsPanelComponent();
+        components.add(themesPanel);
+        components.add(configsPanel);
     }
 
     public void openGui() {
@@ -88,19 +95,31 @@ public class MenuScreen extends Screen implements QuickImports {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         String currentLayout = "DropDown";
 
-        x = window.getScaledWidth() / 2 - 318;
         y = window.getScaledHeight() / 2 - 160;
-        // Width to accommodate 5 panels of 108px each + 6px gaps and margins
-        width = 636;
-        // Height to accommodate 280px panels + top/bottom margins
+        // dynamic width based on total columns
+        float panelW = 115F;
+        float spacing = 6F;
+        int totalColumns = dropdownComponents.size() + 2; // +Themes +Configs in the same row
+        width = Math.round(12 + totalColumns * panelW + (totalColumns - 1) * spacing);
+        x = window.getScaledWidth() / 2 - width / 2;
         height = 320;
 
         float offsetX = 0F;
-        float spacing = 6F;
         for (DropdownCategoryComponent component : dropdownComponents) {
             component.position(x + 6 + offsetX, y + 12);
-            component.size(115F, component.height);
+            component.size(panelW, component.height);
             offsetX += component.width + spacing;
+        }
+        // place Configs and Themes as regular columns in the row
+        if (themesPanel != null) {
+            themesPanel.position(x + 6 + offsetX, y + 12);
+            themesPanel.size(panelW, themesPanel.height);
+            offsetX += panelW + spacing;
+        }
+        if (configsPanel != null) {
+            configsPanel.position(x + 6 + offsetX, y + 12);
+            configsPanel.size(panelW, configsPanel.height);
+            offsetX += panelW + spacing;
         }
 
         MathUtil.scale(context.getMatrices(), x + (float) width / 2, y + (float) height / 2, getScaleAnimation(), () -> {

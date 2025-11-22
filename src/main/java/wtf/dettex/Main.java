@@ -35,6 +35,7 @@ import wtf.dettex.modules.impl.combat.killaura.attack.AttackPerpetrator;
 import wtf.dettex.implement.screen.menu.MenuScreen;
 import wtf.dettex.implement.proxy.ProxyConnection;
 import wtf.dettex.implement.features.pixiksystem2.telegram.JoinNotification;
+import wtf.dettex.api.repository.theme.ThemeRepository;
 
 import java.io.File;
 
@@ -64,6 +65,7 @@ public class Main implements ModInitializer {
     ListenerRepository listenerRepository;
     AttackPerpetrator attackPerpetrator = new AttackPerpetrator();
     ProxyConnection proxyConnection = new ProxyConnection();
+    ThemeRepository themeRepository;
     //временно нахуй надо DeepLearningManager deepLearningManager;
     boolean initialized;
 
@@ -75,6 +77,8 @@ public class Main implements ModInitializer {
         initClientInfoProvider();
         initModules();
         initDraggable();
+        // initialize themes before file manager so ThemeFile can load
+        themeRepository = new ThemeRepository();
         initFileManager();
         initCommands();
         initListeners();
