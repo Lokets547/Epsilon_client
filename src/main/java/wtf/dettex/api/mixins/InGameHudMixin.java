@@ -48,15 +48,17 @@ public abstract class InGameHudMixin implements QuickImports {
         Render2DUtil.onRender(context);
         if (!client.options.hudHidden) {
             Main.getInstance().getDraggableRepository().draggable().forEach(draggable -> {
-                if (draggable.canDraw(hud, draggable)) draggable.startAnimation();
-                else draggable.stopAnimation();
-
-                float scale = draggable.getScaleAnimation().getOutput().floatValue();
-                if (!draggable.isCloseAnimationFinished()) {
-                    draggable.validPosition();
-                    try {
-                        MathUtil.setAlpha(scale, () -> draggable.drawDraggable(context));
-                    } catch (ConcurrentModificationException ignored) {}
+                // Вызываем tick() для обновления внутреннего состояния draggable элементов
+                draggable.tick();
+                
+                if (draggable.canDraw(hud, draggable)) {
+                    float scale = draggable.getScaleAnimation().getOutput().floatValue();
+                    if (!draggable.isCloseAnimationFinished()) {
+                        draggable.validPosition();
+                        try {
+                            MathUtil.setAlpha(scale, () -> draggable.drawDraggable(context));
+                        } catch (ConcurrentModificationException ignored) {}
+                    }
                 }
             });
         }

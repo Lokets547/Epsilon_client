@@ -64,10 +64,6 @@ public abstract class LivingEntityRendererMixin implements QuickImports {
         CURRENT_ENTITY = entity;
         if (entity.equals(mc.player)) {
             RotationController controller = RotationController.INSTANCE;
-            // Only override body yaw in first-person; use vanilla interpolation in third-person to avoid jitter
-            if (!mc.options.getPerspective().isFirstPerson()) {
-                return MathHelper.lerpAngleDegrees(f, g, h);
-            }
             return MathHelper.lerpAngleDegrees(delta, controller.getPreviousRotation().getYaw(), controller.getRotation().getYaw());
         }
         return MathHelper.lerpAngleDegrees(f, g, h);
@@ -78,10 +74,6 @@ public abstract class LivingEntityRendererMixin implements QuickImports {
         CURRENT_ENTITY = instance;
         if (instance.equals(mc.player)) {
             RotationController controller = RotationController.INSTANCE;
-            // Only override in first-person to prevent visible jitter on the model in third-person
-            if (!mc.options.getPerspective().isFirstPerson()) {
-                return instance.getLerpedPitch(f);
-            }
             return MathHelper.lerp(delta, controller.getPreviousRotation().getPitch(), controller.getRotation().getPitch());
         }
         return instance.getLerpedPitch(f);

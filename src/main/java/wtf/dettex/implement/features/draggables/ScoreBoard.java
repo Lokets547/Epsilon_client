@@ -34,6 +34,13 @@ public class ScoreBoard extends AbstractDraggable {
     public void tick() {
         objective = Objects.requireNonNull(mc.world).getScoreboard().getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR);
         scoreboardEntries = mc.world.getScoreboard().getScoreboardEntries(objective).stream().sorted(Comparator.comparing(ScoreboardEntry::value).reversed().thenComparing(ScoreboardEntry::owner, String.CASE_INSENSITIVE_ORDER)).toList();
+        
+        // Управление анимацией в зависимости от наличия записей
+        if (!scoreboardEntries.isEmpty()) {
+            startAnimation();
+        } else {
+            stopAnimation();
+        }
     }
 
     @Override
