@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.render;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.util.hit.BlockHitResult;

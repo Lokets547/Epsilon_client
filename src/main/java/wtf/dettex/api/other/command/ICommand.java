@@ -22,3 +22,4 @@ public interface ICommand extends QuickLogger {
         return false;
     }
 }
+

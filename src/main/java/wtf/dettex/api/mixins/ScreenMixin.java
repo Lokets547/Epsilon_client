@@ -70,3 +70,4 @@ public class ScreenMixin {
         CustomMainMenu.renderTitleBackground(context, w, h);
     }
 }
+

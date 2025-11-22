@@ -62,3 +62,4 @@ public class ScoreBoard extends AbstractDraggable {
         setHeight((int) (font.getStringHeight(text) / 2.16 + offsetText + padding));
     }
 }
+

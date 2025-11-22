@@ -13,3 +13,4 @@ public class PushEvent extends EventCancellable {
         COLLISION, BLOCK, WATER
     }
 }
+

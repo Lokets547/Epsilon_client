@@ -1,7 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +35,7 @@ public class AirJump extends Module {
 
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPostTick(PostTickEvent e) {
         if (modeSetting.isSelected("Polar Block Collision")) {
             if (mc.options.jumpKey.isPressed()) return;
@@ -61,3 +59,4 @@ public class AirJump extends Module {
         return !mc.world.getBlockState(blockPos).getCollisionShape(mc.world, blockPos).isEmpty();
     }
 }
+

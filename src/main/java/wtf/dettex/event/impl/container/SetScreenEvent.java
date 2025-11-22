@@ -16,3 +16,4 @@ import wtf.dettex.event.events.Event;
 public class SetScreenEvent implements Event {
     public Screen screen;
 }
+

@@ -28,3 +28,4 @@ public enum WayDataType implements IDatatypeFor<Way> {
         return Main.getInstance().getWayRepository().wayList;
     }
 }
+

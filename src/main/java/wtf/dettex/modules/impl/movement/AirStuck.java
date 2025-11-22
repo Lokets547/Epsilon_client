@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.util.math.Vec3d;
@@ -28,7 +27,7 @@ public class AirStuck extends Module {
     }
 
     @Override
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void deactivate() {
         if (mc.world != null) {
             if (mc.player != null) mc.player.fallDistance = 0.0F;
@@ -36,17 +35,18 @@ public class AirStuck extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onMove(MoveEvent e) {
         if (mc.player == null || mc.world == null) return;
         e.setMovement(Vec3d.ZERO);
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPostTick(PostTickEvent e) {
         if (mc.player == null) return;
         mc.player.setVelocity(0.0, 0.0, 0.0);
         mc.player.fallDistance = 0.0F;
     }
 }
+

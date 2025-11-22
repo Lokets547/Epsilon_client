@@ -29,3 +29,4 @@ public class ItemUtil implements QuickImports {
         return Math.max(0, (entry.endTick - cooldownManager.tick) / 20F);
     }
 }
+

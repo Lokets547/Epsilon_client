@@ -19,3 +19,4 @@ public class ItemRendererEvent implements Event {
     ItemStack stack;
     Hand hand;
 }
+

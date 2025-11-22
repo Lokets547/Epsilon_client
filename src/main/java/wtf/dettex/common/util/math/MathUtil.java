@@ -171,3 +171,4 @@ public class MathUtil implements QuickImports {
         return lerp(tickCounter.getLastDuration() / smooth, prev, orig);
     }
 }
+

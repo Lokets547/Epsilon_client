@@ -68,3 +68,4 @@ public class ItemRender implements QuickImports {
 
     public record CachedSprite(Sprite sprite, int glId, int color) {}
 }
+

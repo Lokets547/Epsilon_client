@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.text.Text;
@@ -35,7 +34,7 @@ public class AutoLeave extends Module {
 
     
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         if (ServerUtil.isPvp()) return;
 
@@ -60,3 +59,4 @@ public class AutoLeave extends Module {
     }
 
 }
+

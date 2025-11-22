@@ -150,3 +150,4 @@ public class CommandDispatcher implements QuickLogger {
         }
     }
 }
+

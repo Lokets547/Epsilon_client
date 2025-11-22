@@ -1,6 +1,5 @@
 package wtf.dettex.common.client;
 
-import antidaunleak.api.annotation.Native;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -45,14 +44,12 @@ public class IRCManager {
         scheduleConnect(0);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void scheduleConnect(long delayMillis) {
         if (connecting) return;
         connecting = true;
         scheduler.schedule(this::tryConnect, delayMillis, TimeUnit.MILLISECONDS);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void tryConnect() {
         try {
             socket = new Socket(host, port);
@@ -73,7 +70,6 @@ public class IRCManager {
         }
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void startReading() {
         readerService.submit(() -> {
             try {
@@ -96,7 +92,6 @@ public class IRCManager {
         scheduleConnect(15000);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void closeConnection() {
         closeQuietly(in);
         closeQuietly(out);
@@ -106,7 +101,6 @@ public class IRCManager {
         socket = null;
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     public void messageHost(String msg) {
         try {
             if (out != null) {

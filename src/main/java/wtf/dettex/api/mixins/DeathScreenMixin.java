@@ -20,3 +20,4 @@ public class DeathScreenMixin {
         EventManager.callEvent(new DeathScreenEvent(ticksSinceDeath));
     }
 }
+

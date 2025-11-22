@@ -19,3 +19,4 @@ public class SplashOverlayMixin {
         return (color & 0xFF000000);
     }
 }
+

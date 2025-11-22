@@ -129,3 +129,4 @@ public abstract class ModelWrapper<I, O> implements Closeable {
                 .add(Linear.builder().setUnits(outputs).build());
     }
 }
+

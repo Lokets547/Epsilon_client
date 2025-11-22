@@ -26,3 +26,4 @@ public class BlockEntityMixin {
         if (blockEntity != null) EventManager.callEvent(new BlockEntityProgressEvent(blockEntity, BlockEntityProgressEvent.Type.REMOVE));
     }
 }
+

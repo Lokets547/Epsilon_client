@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -46,7 +45,7 @@ public class AimBot extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent event) {
         if (Module.fullNullCheck()) {
             return;
@@ -151,3 +150,4 @@ public class AimBot extends Module {
         }
     }
 }
+

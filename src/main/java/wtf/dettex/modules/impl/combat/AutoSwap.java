@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -36,7 +35,7 @@ public class AutoSwap extends Module {
 
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onKey(KeyEvent e) {
         if (e.isKeyDown(bind.getKey())) {
             Slot first = PlayerInventoryUtil.getSlot(getItemByType(firstItem.getSelected()), Comparator.comparing(s -> s.getStack().hasEnchantments()), s -> s.id != 46 && s.id != 45);

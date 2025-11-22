@@ -19,3 +19,4 @@ public class HandOffsetEvent implements Event {
     ItemStack stack;
     Hand hand;
 }
+

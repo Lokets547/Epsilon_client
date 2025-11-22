@@ -5,3 +5,4 @@ import net.minecraft.util.math.Direction;
 import wtf.dettex.event.events.Event;
 
 public record BlockBreakingEvent(BlockPos blockPos, Direction direction) implements Event {}
+

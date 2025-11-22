@@ -25,3 +25,4 @@ public class ClickGUI extends Module {
         return instance;
     }
 }
+

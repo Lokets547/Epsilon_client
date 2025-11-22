@@ -26,3 +26,4 @@ public class Setting {
         return visible == null || visible.get();
     }
 }
+

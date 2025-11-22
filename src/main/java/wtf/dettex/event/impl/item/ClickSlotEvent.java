@@ -15,3 +15,4 @@ public class ClickSlotEvent extends EventCancellable {
     int windowId, slotId, button;
     SlotActionType actionType;
 }
+

@@ -64,3 +64,4 @@ public class BlockESPFile extends ClientFile {
 
     private record BlockESP(String block, int color) {}
 }
+

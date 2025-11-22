@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import wtf.dettex.modules.setting.Setting;
 import wtf.dettex.implement.screen.menu.components.AbstractComponent;
+import wtf.dettex.common.util.math.MathUtil;
 
 @Getter
 @RequiredArgsConstructor
@@ -30,4 +31,10 @@ public abstract class AbstractSettingComponent extends AbstractComponent {
     protected float getClampedClipBottom(float defaultBottom) {
         return Math.min(defaultBottom, clipBottom);
     }
+
+    @Override
+    public boolean isHover(double mouseX, double mouseY) {
+        return MathUtil.isHovered(mouseX, mouseY, x, y, width, height);
+    }
 }
+

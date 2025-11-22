@@ -310,3 +310,4 @@ public class TraxSmoothMode extends AngleSmoothMode {
         return new Vec3d(0.0f,0.0f,0.0f);
     }
 }
+

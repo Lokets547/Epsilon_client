@@ -14,3 +14,4 @@ public class TabToggleEvent implements Event {
         this.open = open;
     }
 }
+

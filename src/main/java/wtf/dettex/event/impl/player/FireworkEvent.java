@@ -16,3 +16,4 @@ public class FireworkEvent implements Event {
     public Vec3d vector;
 
 }
+

@@ -4,3 +4,4 @@ public interface ItemPhysicState {
     boolean dettex$isItemOnGround();
     void dettex$setItemOnGround(boolean value);
 }
+

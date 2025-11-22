@@ -175,16 +175,52 @@ public class ModuleFile extends ClientFile {
             bindSetting.setKey(settingElement.getAsInt());
         }
         if (setting instanceof TextSetting textSetting) {
-            textSetting.setText(settingElement.getAsString());
+            if (settingElement.isJsonPrimitive()) {
+                textSetting.setText(settingElement.getAsString());
+            }
         }
         if (setting instanceof SelectSetting selectSetting) {
-            selectSetting.setSelected(settingElement.getAsString());
+            // Support legacy/group formats: if value is an object, try to extract a string field
+            if (settingElement.isJsonPrimitive()) {
+                selectSetting.setSelected(settingElement.getAsString());
+            } else if (settingElement.isJsonObject()) {
+                JsonObject obj = settingElement.getAsJsonObject();
+                String candidate = null;
+                // Common migration: "Sprint Reset" group -> select with old inner key "Reset Type"
+                if (obj.has("Reset Type") && obj.get("Reset Type").isJsonPrimitive()) {
+                    candidate = obj.getAsJsonPrimitive("Reset Type").getAsString();
+                } else if (obj.has("selected") && obj.get("selected").isJsonPrimitive()) {
+                    candidate = obj.getAsJsonPrimitive("selected").getAsString();
+                } else {
+                    for (java.util.Map.Entry<String, JsonElement> e : obj.entrySet()) {
+                        JsonElement v = e.getValue();
+                        if (v.isJsonPrimitive() && v.getAsJsonPrimitive().isString()) {
+                            candidate = v.getAsString();
+                            break;
+                        }
+                    }
+                }
+                if (candidate != null) {
+                    selectSetting.setSelected(candidate);
+                }
+            }
         }
         if (setting instanceof MultiSelectSetting multiSelectSetting) {
-            String asString = settingElement.getAsString();
-            List<String> selectedList = new ArrayList<>(Arrays.asList(asString.split(",")));
-            selectedList.removeIf(s -> !multiSelectSetting.getList().contains(s));
-            multiSelectSetting.setSelected(selectedList);
+            List<String> selectedList = new ArrayList<>();
+            if (settingElement.isJsonArray()) {
+                for (JsonElement el : settingElement.getAsJsonArray()) {
+                    if (el.isJsonPrimitive()) selectedList.add(el.getAsString());
+                }
+            } else if (settingElement.isJsonPrimitive()) {
+                String asString = settingElement.getAsString();
+                if (!asString.isEmpty()) {
+                    selectedList.addAll(Arrays.asList(asString.split(",")));
+                }
+            }
+            if (!selectedList.isEmpty()) {
+                selectedList.removeIf(s -> !multiSelectSetting.getList().contains(s));
+                multiSelectSetting.setSelected(selectedList);
+            }
         }
         if (setting instanceof GroupSetting groupSetting) {
             JsonObject groupObject = settingElement.getAsJsonObject();
@@ -198,3 +234,4 @@ public class ModuleFile extends ClientFile {
         }
     }
 }
+

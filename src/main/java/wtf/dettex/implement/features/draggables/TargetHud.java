@@ -173,3 +173,4 @@ public class TargetHud extends AbstractDraggable {
        Render2DUtil.drawTexture(context, textureLocation, getX() + 5, getY() + 5.5F, 25, 3, 8, 8, 64, ColorUtil.getRect(1), ColorUtil.multRed(-1, 1 + lastTarget.hurtTime / 4F));
     }
 }
+

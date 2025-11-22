@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.render;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -197,3 +196,4 @@ public class AuctionHelper extends Module {
         if (slot != null) rectangle.render(ShapeProperties.create(context.getMatrices(), slot.x, slot.y, 16, 16).color(color).build());
     }
 }
+

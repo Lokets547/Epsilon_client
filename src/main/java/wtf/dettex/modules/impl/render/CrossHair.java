@@ -46,3 +46,4 @@ public class CrossHair extends Module {
         Render2DUtil.drawQuad(x + indent - padding / 2, y - offset - padding / 2, size + padding, size2 + padding, color);
     }
 }
+

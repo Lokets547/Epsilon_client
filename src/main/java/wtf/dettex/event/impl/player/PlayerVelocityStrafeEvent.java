@@ -17,3 +17,4 @@ public class PlayerVelocityStrafeEvent implements Event {
     final float yaw;
     Vec3d velocity;
 }
+

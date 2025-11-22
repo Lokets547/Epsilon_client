@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import com.mojang.authlib.GameProfile;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +34,7 @@ public class AntiBot extends Module {
 
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPacket(PacketEvent e) {
         switch (e.getPacket()) {
             case PlayerListS2CPacket list -> checkPlayerAfterSpawn(list);

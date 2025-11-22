@@ -18,3 +18,4 @@ public class BoundingBoxControlEvent extends EventCancellable {
     public Box box;
     public Entity entity;
 }
+

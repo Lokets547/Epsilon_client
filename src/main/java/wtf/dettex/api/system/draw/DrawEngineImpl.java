@@ -51,3 +51,4 @@ public class DrawEngineImpl implements DrawEngine, QuickImports {
         buffer.vertex(entry, x, y, 0).texture(1, 0).color(color.z);
     }
 }
+

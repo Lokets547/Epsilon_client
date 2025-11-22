@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.player;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import wtf.dettex.event.EventHandler;
@@ -28,3 +27,4 @@ public class NameProtect extends Module {
         if (friendsSetting.isValue()) FriendUtils.getFriends().forEach(friend -> e.replaceText(friend.getName(), nameSetting.getText()));
     }
 }
+

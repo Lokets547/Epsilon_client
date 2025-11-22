@@ -18,3 +18,4 @@ public class ConsoleLogger implements Logger {
 
     }
 }
+

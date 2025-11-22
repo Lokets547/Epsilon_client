@@ -20,3 +20,4 @@ public interface ScreenAccessor {
     @Accessor("selectables")
     List<Selectable> getSelectables();
 }
+

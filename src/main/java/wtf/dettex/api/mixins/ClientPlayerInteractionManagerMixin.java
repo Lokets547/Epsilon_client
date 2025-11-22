@@ -74,3 +74,4 @@ public class ClientPlayerInteractionManagerMixin {
         EventManager.callEvent(new BreakBlockEvent(pos));
     }
 }
+

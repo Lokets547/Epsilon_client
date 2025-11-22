@@ -192,3 +192,4 @@ public final class EventManager {
 
     private record MethodData(Object source, Method target, byte priority) {}
 }
+

@@ -28,3 +28,4 @@ public class SettingRepository implements Setupable {
         return settings;
     }
 }
+

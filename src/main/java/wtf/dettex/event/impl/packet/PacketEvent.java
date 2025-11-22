@@ -22,3 +22,4 @@ public class PacketEvent extends EventCancellable {
         SEND, RECEIVE
     }
 }
+

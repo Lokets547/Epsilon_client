@@ -161,3 +161,4 @@ public class Paginator<E> implements QuickLogger {
         paginate(consumer, Arrays.asList(elems), null, transform, null);
     }
 }
+

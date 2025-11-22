@@ -87,3 +87,4 @@ public abstract class LivingEntityRendererMixin implements QuickImports {
         return instance.getLerpedPitch(f);
     }
 }
+

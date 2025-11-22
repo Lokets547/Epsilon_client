@@ -11,3 +11,4 @@ import wtf.dettex.event.events.callables.EventCancellable;
 public class AspectRatioEvent extends EventCancellable {
     float ratio;
 }
+

@@ -20,3 +20,4 @@ public class CommandNotFoundException extends CommandException implements QuickL
        logDirect(getMessage());
     }
 }
+

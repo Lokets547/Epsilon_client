@@ -55,3 +55,4 @@ public class FriendFile extends ClientFile {
         }
     }
 }
+

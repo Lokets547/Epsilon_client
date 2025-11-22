@@ -288,3 +288,4 @@ public class MandaSmoothMode extends AngleSmoothMode {
         return Math.max(0.0F, base + variation);
     }
 }
+

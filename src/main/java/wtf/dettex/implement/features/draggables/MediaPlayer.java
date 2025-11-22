@@ -267,3 +267,4 @@ public class MediaPlayer extends AbstractDraggable {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+

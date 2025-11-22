@@ -44,3 +44,4 @@ public enum FriendDataType implements IDatatypeFor<Friend> {
         return FriendUtils.getFriends();
     }
 }
+

@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.block.Blocks;
@@ -51,7 +50,7 @@ public class NoSlow extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         if (slowTypeSetting.isSelected("Web") && PlayerIntersectionUtil.isPlayerInBlock(Blocks.COBWEB)) {
             double[] speed = MovingUtil.calculateDirection(0.64);
@@ -215,3 +214,4 @@ public class NoSlow extends Module {
         }
     }
 }
+

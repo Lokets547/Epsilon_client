@@ -32,3 +32,4 @@ public abstract class AbstractCustomButton implements QuickImports {
 
     public abstract boolean mouseClicked(double mouseX, double mouseY, int button);
 }
+

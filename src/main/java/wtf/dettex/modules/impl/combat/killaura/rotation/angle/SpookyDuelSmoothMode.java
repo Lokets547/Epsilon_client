@@ -39,3 +39,4 @@ moveAngle.setPitch(MathHelper.lerp(MathUtil.getRandom(speed, speed + 0.04F),
         return new Vec3d(0.12F, 0.12F, 0.12F);
     }
 }
+

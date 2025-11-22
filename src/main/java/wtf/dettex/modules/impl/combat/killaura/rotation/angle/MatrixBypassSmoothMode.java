@@ -64,3 +64,4 @@ public class MatrixBypassSmoothMode extends AngleSmoothMode {
         return new Vec3d(0.1, 0.1, 0.1);
     }
 }
+

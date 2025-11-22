@@ -237,3 +237,4 @@ public class CustomMainMenu extends Screen implements QuickImports {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

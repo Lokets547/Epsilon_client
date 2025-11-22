@@ -69,3 +69,4 @@ public class Angle {
         final Vec3d vec;
     }
 }
+

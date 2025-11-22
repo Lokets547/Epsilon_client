@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -36,7 +35,7 @@ public class Criticals extends Module {
 
     
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onAttack(AttackEvent e) {
         if (mc.player.isTouchingWater()) return;
         if (mode.isSelected("Grim Old")) {

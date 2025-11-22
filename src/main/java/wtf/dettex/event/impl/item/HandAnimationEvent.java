@@ -17,3 +17,4 @@ public class HandAnimationEvent extends EventCancellable {
     Hand hand;
     float swingProgress;
 }
+

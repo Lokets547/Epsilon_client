@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;

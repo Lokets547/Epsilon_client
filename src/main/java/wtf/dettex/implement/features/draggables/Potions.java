@@ -111,3 +111,4 @@ public class Potions extends AbstractDraggable {
 
     private record Potion(StatusEffectInstance effect, Animation anim) {}
 }
+

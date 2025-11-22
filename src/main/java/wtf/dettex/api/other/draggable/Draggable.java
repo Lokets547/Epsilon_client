@@ -19,3 +19,4 @@ public interface Draggable {
 
     boolean mouseReleased(double mouseX, double mouseY, int button);
 }
+

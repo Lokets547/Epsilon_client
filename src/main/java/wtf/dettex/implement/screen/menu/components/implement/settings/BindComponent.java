@@ -72,3 +72,4 @@ public class BindComponent extends AbstractSettingComponent {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }
+

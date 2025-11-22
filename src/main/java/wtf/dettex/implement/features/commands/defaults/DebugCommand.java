@@ -34,3 +34,4 @@ public class DebugCommand extends Command {
         return List.of("Developer");
     }
 }
+

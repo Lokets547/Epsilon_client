@@ -125,3 +125,4 @@ public abstract class GameRendererMixin {
         return (float) (0);
     }
 }
+

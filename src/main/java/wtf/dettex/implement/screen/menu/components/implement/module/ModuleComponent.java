@@ -184,12 +184,17 @@ public class ModuleComponent extends AbstractComponent {
         if (isExpandedVisible()) {
             layoutSettings();
             ClipBounds clipBounds = computeClipBounds();
+            boolean handled = false;
             for (AbstractSettingComponent component : components) {
                 int componentHeight = component.height > 0 ? (int) component.height : getDefaultSettingHeight(component);
                 if (!clipBounds.isVisible(component.y, componentHeight)) continue;
-                component.mouseClicked(mouseX, mouseY, button);
+                if (component.isHover(mouseX, mouseY)) {
+                    component.mouseClicked(mouseX, mouseY, button);
+                    handled = true;
+                    break;
+                }
             }
-            return true;
+            if (handled) return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }

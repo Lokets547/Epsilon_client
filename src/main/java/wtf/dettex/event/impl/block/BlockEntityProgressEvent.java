@@ -8,3 +8,4 @@ public record BlockEntityProgressEvent(BlockEntity blockEntity, Type type) imple
         ADD, REMOVE
     }
 }
+

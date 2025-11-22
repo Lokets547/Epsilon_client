@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.EquipmentSlot;
@@ -69,3 +68,4 @@ public class ElytraHelper extends Module {
         else return PlayerInventoryUtil.getSlot(Items.ELYTRA);
     }
 }
+

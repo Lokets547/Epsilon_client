@@ -14,3 +14,4 @@ public class FogEvent extends EventCancellable {
     float distance;
     int color;
 }
+

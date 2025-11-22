@@ -44,3 +44,4 @@ public enum MacroDataType implements IDatatypeFor<Macro> {
         return Main.getInstance().getMacroRepository().macroList;
     }
 }
+

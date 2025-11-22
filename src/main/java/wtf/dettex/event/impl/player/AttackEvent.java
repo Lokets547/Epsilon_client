@@ -12,3 +12,4 @@ import wtf.dettex.event.events.callables.EventCancellable;
 public class AttackEvent extends EventCancellable {
     Entity entity;
 }
+

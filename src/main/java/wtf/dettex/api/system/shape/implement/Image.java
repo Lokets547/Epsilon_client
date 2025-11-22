@@ -39,3 +39,4 @@ public class Image implements Shape, QuickImports {
         RenderSystem.disableBlend();
     }
 }
+

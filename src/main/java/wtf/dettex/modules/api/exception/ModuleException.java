@@ -8,3 +8,4 @@ import lombok.Value;
 public class ModuleException extends RuntimeException {
     String message, moduleName;
 }
+

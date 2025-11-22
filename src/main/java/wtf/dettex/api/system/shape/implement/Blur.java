@@ -164,3 +164,4 @@ public class Blur implements Shape, QuickImports {
         }
     }
 }
+

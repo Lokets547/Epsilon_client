@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.render;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -172,3 +171,4 @@ public class JumpCircle extends Module implements QuickImports {
         Circle(Vec3d pos) { this.pos = pos; }
     }
 }
+

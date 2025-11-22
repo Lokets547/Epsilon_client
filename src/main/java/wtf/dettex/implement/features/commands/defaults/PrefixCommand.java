@@ -60,3 +60,4 @@ public class PrefixCommand extends Command implements QuickImports {
         );
     }
 }
+

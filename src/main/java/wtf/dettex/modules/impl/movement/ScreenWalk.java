@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.movement;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -73,3 +72,4 @@ public class ScreenWalk extends Module {
         });
     }
 }
+

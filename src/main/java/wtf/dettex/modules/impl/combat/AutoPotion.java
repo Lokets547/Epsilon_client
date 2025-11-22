@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.effect.StatusEffect;
@@ -53,7 +52,7 @@ public class AutoPotion extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         if (mc.player == null || mc.world == null) return;
 
@@ -218,3 +217,4 @@ public class AutoPotion extends Module {
         }
     }
 }
+

@@ -451,3 +451,4 @@ public class AltManagerScreen extends Screen implements QuickImports {
         return animation;
     }
 }
+

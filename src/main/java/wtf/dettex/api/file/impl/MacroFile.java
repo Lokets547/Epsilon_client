@@ -54,3 +54,4 @@ public class MacroFile extends ClientFile {
         }
     }
 }
+

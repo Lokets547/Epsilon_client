@@ -17,3 +17,4 @@ public class CameraEvent extends EventCancellable {
     float distance;
     Angle angle;
 }
+

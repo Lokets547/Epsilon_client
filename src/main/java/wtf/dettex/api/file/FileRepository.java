@@ -18,6 +18,7 @@ public class FileRepository {
     public void setup(Main main) {
         register(
                 new ModuleFile(main.getModuleRepository(), main.getDraggableRepository()),
+                new ThemeFile(),
                 new EntityESPFile(main.getBoxESPRepository()),
                 new BlockESPFile(main.getBoxESPRepository()),
                 new MacroFile(main.getMacroRepository()),
@@ -31,3 +32,4 @@ public class FileRepository {
         clientFiles.addAll(List.of(clientFIle));
     }
 }
+

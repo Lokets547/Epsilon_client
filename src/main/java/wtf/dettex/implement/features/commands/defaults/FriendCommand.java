@@ -109,3 +109,4 @@ public class FriendCommand extends Command {
         );
     }
 }
+

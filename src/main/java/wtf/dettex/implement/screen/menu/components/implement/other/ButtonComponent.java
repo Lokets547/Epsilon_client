@@ -39,3 +39,4 @@ public class ButtonComponent extends AbstractComponent {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 }
+

@@ -22,3 +22,4 @@ public record KeyEvent(Screen screen, InputUtil.Type type, int key, int action) 
         return this.key == key && action == 0 && screen;
     }
 }
+

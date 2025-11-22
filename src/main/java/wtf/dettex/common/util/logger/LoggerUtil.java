@@ -40,3 +40,4 @@ public class LoggerUtil {
         log.error(ConsoleColors.BLACK + ConsoleColors.BG_RED + message + ConsoleColors.RESET, o);
     }
 }
+

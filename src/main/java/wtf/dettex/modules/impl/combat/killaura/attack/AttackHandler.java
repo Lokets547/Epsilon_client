@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat.killaura.attack;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,7 +50,7 @@ public class AttackHandler implements QuickImports {
     void tick() {
         if (mc.player == null) return;
 
-        if (sprintResetActive && Aura.getInstance().getSprintReset().isValue()) {
+        if (sprintResetActive) {
             // Принудительно отключаем спринт каждый тик пока активен сброс
             if (mc.player.isSprinting()) {
                 mc.player.setSprinting(false);
@@ -89,12 +88,8 @@ public class AttackHandler implements QuickImports {
         if (canAttack(config, 1)) preAttackEntity(config);
 
         boolean blockDueToSprint;
-        if (Aura.getInstance().getSprintReset().isValue()) {
-            // Если Sprint Reset активен и сброс уже произошёл, не блокируем атаку
-            blockDueToSprint = !sprintResetActive && mc.player.isSprinting() && !mc.player.isGliding() && !mc.player.isTouchingWater();
-        } else {
-            blockDueToSprint = isSprinting();
-        }
+        // Sprint Reset всегда включен: блокируем атаку, если ещё не сброшен спринт
+        blockDueToSprint = !sprintResetActive && mc.player.isSprinting() && !mc.player.isGliding() && !mc.player.isTouchingWater();
 
         if (RaytracingUtil.rayTrace(config) && canAttack(config, 0) && !blockDueToSprint) {
             attackEntity(config);
@@ -107,7 +102,7 @@ public class AttackHandler implements QuickImports {
             shieldWatch.reset();
         }
 
-        if (!mc.player.isSwimming() && Aura.getInstance().getSprintReset().isValue()) {
+        if (!mc.player.isSwimming()) {
             boolean wasSprinting = mc.player.isSprinting();
             if (wasSprinting) {
                 String sprintResetMode = Aura.getInstance().getSprintResetMode().getSelected();

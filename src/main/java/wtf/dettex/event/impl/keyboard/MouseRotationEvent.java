@@ -11,3 +11,4 @@ import wtf.dettex.event.events.callables.EventCancellable;
 public class MouseRotationEvent extends EventCancellable {
     float cursorDeltaX, cursorDeltaY;
 }
+

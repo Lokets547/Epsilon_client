@@ -9,3 +9,4 @@ import wtf.dettex.event.events.Event;
 public class RotationUpdateEvent implements Event {
     byte type;
 }
+

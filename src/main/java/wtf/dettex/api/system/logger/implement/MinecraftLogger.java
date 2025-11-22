@@ -22,3 +22,4 @@ public class MinecraftLogger implements Logger, QuickImports {
         }
     }
 }
+

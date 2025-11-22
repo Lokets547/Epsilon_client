@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat.killaura.rotation;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.Entity;
@@ -28,7 +27,7 @@ public class RotationConfig {
         this.moveCorrection = moveCorrection;
         this.freeCorrection = freeCorrection;
     }
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public RotationPlan createRotationPlan(Angle angle, Vec3d vec, Entity entity, int reset) {
         return new RotationPlan(angle, vec, entity, angleSmooth, reset, resetThreshold, moveCorrection, freeCorrection);
     }

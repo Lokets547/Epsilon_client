@@ -22,3 +22,4 @@ public class TitleScreenMixin extends Screen {
         MinecraftClient.getInstance().setScreen(new CustomMainMenu());
     }
 }
+

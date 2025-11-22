@@ -15,3 +15,4 @@ public interface IPlayerPosition {
     @Accessor("pitch")
     void setPitch(float pitch);
 }
+

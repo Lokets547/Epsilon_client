@@ -36,3 +36,4 @@ public class Localization implements QuickImports {
         return gson.fromJson(reader, new TypeToken<Map<String, String>>() {}.getType());
     }
 }
+

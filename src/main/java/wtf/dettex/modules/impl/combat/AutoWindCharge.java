@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.item.Items;
@@ -44,7 +43,7 @@ public class AutoWindCharge extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onKey(KeyEvent e) {
         if (mode.isSelected("Bind") || mode.isSelected("Both")) {
             if (e.isKeyDown(throwBind.getKey())) {
@@ -78,3 +77,4 @@ public class AutoWindCharge extends Module {
         watch.reset();
     }
 }
+

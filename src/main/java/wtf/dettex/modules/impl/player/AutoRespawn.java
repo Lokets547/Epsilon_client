@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.player;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -48,3 +47,4 @@ public class AutoRespawn extends Module {
         }
     }
 }
+

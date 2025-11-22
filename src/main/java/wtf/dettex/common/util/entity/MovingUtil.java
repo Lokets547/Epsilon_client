@@ -113,3 +113,4 @@ public class MovingUtil implements QuickImports {
         return getDirectionalInputForDegrees(input, dgs, 20.0F);
     }
 }
+

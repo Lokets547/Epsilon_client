@@ -1,8 +1,8 @@
 package wtf.dettex.api.mixins;
 
-import antidaunleak.api.UserProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
@@ -36,6 +36,7 @@ import wtf.dettex.api.other.draggable.AbstractDraggable;
 import wtf.dettex.Main;
 import wtf.dettex.api.file.exception.FileProcessingException;
 import wtf.dettex.api.system.font.Fonts;
+import wtf.dettex.common.client.Profile;
 import wtf.dettex.common.util.logger.LoggerUtil;
 import wtf.dettex.event.impl.container.SetScreenEvent;
 import wtf.dettex.event.impl.player.HotBarUpdateEvent;
@@ -120,14 +121,14 @@ public abstract class MinecraftClientMixin implements QuickImports {
 
     @Unique
     private String[] getTitles() {
-        UserProfile profile = UserProfile.getInstance();
+        String username = Profile.getUsername();
         return new String[] {
                 "Our telegram channel: t.me/DettexDLC",
                 "Our website: dettex.space",
                 "Build 1.0",
-                getBabkaTime() + ", " + profile.profile("username"),
+                getBabkaTime() + ", " + username,
                 "Current time: " + getCurrentTime(),
-                "Profile: " + profile.profile("username") + ", UID: " + profile.profile("uid") + ", Role: " + profile.profile("role") + ", Subscription: " + profile.profile("subTime")
+                "Profile: " + username
         };
     }
 

@@ -1,6 +1,5 @@
 package wtf.dettex;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +35,7 @@ import wtf.dettex.modules.impl.combat.killaura.attack.AttackPerpetrator;
 import wtf.dettex.implement.screen.menu.MenuScreen;
 import wtf.dettex.implement.proxy.ProxyConnection;
 import wtf.dettex.implement.features.pixiksystem2.telegram.JoinNotification;
+import wtf.dettex.api.repository.theme.ThemeRepository;
 
 import java.io.File;
 
@@ -65,17 +65,20 @@ public class Main implements ModInitializer {
     ListenerRepository listenerRepository;
     AttackPerpetrator attackPerpetrator = new AttackPerpetrator();
     ProxyConnection proxyConnection = new ProxyConnection();
+    ThemeRepository themeRepository;
     //временно нахуй надо DeepLearningManager deepLearningManager;
     boolean initialized;
 
 
     @Override
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onInitialize() {
         instance = this;
         initClientInfoProvider();
         initModules();
         initDraggable();
+        // initialize themes before file manager so ThemeFile can load
+        themeRepository = new ThemeRepository();
         initFileManager();
         initCommands();
         initListeners();
@@ -114,7 +117,6 @@ public class Main implements ModInitializer {
         commandDispatcher = new CommandDispatcher(eventManager);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void initClientInfoProvider() {
         File clientDirectory = new File(MinecraftClient.getInstance().runDirectory, "\\Dettex\\");
         File filesDirectory = new File(clientDirectory, "\\files\\");
@@ -122,7 +124,6 @@ public class Main implements ModInitializer {
         clientInfoProvider = new ClientInfo("Dettex", "PixikDev", "ADMIN", clientDirectory, filesDirectory, moduleFilesDirectory);
     }
 
-    @Native(type = Native.Type.VMProtectBeginUltra)
     private void initFileManager() {
         DirectoryCreator directoryCreator = new DirectoryCreator();
         directoryCreator.createDirectories(clientInfoProvider.clientDir(), clientInfoProvider.filesDir(), clientInfoProvider.configsDir());

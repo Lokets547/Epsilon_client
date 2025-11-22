@@ -12,3 +12,4 @@ public enum CommandSystem implements ICommandSystem {
         return ArgParserManager.INSTANCE;
     }
 }
+

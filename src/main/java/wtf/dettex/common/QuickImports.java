@@ -30,3 +30,4 @@ public interface QuickImports extends QuickLogger {
 
     WindowManager windowManager = new WindowManager();
 }
+

@@ -25,6 +25,12 @@ public class SearchComponent extends AbstractComponent {
     @Getter
     private String text = "";
 
+    public void setText(String text) {
+        this.text = text == null ? "" : text;
+        this.cursorPosition = this.text.length();
+        clearSelection();
+    }
+
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         MatrixStack matrix = context.getMatrices();
@@ -265,3 +271,4 @@ public class SearchComponent extends AbstractComponent {
         }
     }
 }
+

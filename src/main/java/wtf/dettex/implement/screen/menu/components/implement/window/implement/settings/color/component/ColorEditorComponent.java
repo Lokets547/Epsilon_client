@@ -56,3 +56,4 @@ public class ColorEditorComponent extends AbstractComponent {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 }
+

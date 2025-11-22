@@ -27,3 +27,4 @@ public abstract class AbstractBlockStateMixin implements QuickImports {
         if (event.isCancelled()) ci.cancel();
     }
 }
+

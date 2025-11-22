@@ -257,3 +257,4 @@ public class ProjectilePrediction extends Module {
 
     private record Point(ItemStack stack, Vec3d pos, int ticks) {}
 }
+

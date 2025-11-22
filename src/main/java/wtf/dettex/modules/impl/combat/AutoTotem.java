@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -52,7 +51,7 @@ public class AutoTotem extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onTick(TickEvent e) {
         if (trigger()) {
             ItemStack offHandStack = mc.player.getOffHandStack();
@@ -69,7 +68,7 @@ public class AutoTotem extends Module {
             script.update();
         }
     }
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public boolean trigger() {
         float elytra = mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem().equals(Items.ELYTRA) ? 4 : 0;
         float health = mc.player.getHealth() + mc.player.getAbsorptionAmount();
@@ -80,3 +79,4 @@ public class AutoTotem extends Module {
         return triggerSetting.isSelected("TNT") && PlayerIntersectionUtil.streamEntities().anyMatch(e -> e instanceof TntEntity && mc.player.distanceTo(e) < TNTRangeSetting.getValue());
     }
 }
+

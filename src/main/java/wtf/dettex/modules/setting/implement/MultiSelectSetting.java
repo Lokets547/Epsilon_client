@@ -74,3 +74,4 @@ public class MultiSelectSetting extends Setting {
         selected.add(value);
     }
 }
+

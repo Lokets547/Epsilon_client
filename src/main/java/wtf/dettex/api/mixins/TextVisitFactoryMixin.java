@@ -16,3 +16,4 @@ import wtf.dettex.event.impl.render.TextFactoryEvent;
         return event.getText();
     }
 }
+

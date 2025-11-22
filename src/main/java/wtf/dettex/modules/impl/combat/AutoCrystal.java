@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.combat;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -43,7 +42,7 @@ public class AutoCrystal extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPacket(PacketEvent e) {
         if (e.getPacket() instanceof PlayerInteractBlockC2SPacket interact && interact.getSequence() != 0 && script.isFinished() && PlayerInventoryComponent.script.isFinished())
             script.addTickStep(0, () -> {
@@ -78,3 +77,4 @@ public class AutoCrystal extends Module {
         script.update();
     }
 }
+

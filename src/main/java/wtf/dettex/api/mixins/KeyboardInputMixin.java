@@ -45,3 +45,4 @@ public class KeyboardInputMixin extends InputMixin {
         return new PlayerInput(movementForward > 0F, movementForward < 0F, movementSideways > 0F, movementSideways < 0F, input.jump(), input.sneak(), input.sprint());
     }
 }
+

@@ -47,3 +47,4 @@ public enum ConfigDataType implements IDatatypeFor<ClientFile> {
                 .collect(Collectors.toList());
     }
 }
+

@@ -25,6 +25,7 @@ public class ModuleRepository {
     public void setup() {
         register(
                 new ServerHelper(),
+                new ItemHelper(),
                 new WaterSpeed(),
                 new ClickAction(),
                 new Particles(),
@@ -128,3 +129,4 @@ public class ModuleRepository {
         return modules;
     }
 }
+

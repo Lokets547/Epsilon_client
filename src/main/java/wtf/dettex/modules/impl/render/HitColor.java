@@ -75,3 +75,4 @@ public class HitColor extends Module {
         if (a < 255) e.setCancelled(true);
     }
 }
+

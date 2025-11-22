@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.misc;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.entity.player.PlayerEntity;
@@ -85,7 +84,7 @@ public class FakeLag extends Module {
     }
 
     @Override
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void activate() {
         packetTimer.reset();
         originalPos = mc.player.getPos();
@@ -93,7 +92,7 @@ public class FakeLag extends Module {
     }
 
     @Override
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void deactivate() {
         resumePackets();
         originalPos = null;
@@ -102,7 +101,7 @@ public class FakeLag extends Module {
     }
 
     @EventHandler
-    @Native(type = Native.Type.VMProtectBeginUltra)
+
     public void onPacket(PacketEvent e) {
         if (PlayerIntersectionUtil.nullCheck()) return;
 

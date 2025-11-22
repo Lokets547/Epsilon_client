@@ -86,3 +86,4 @@ public class Rectangle implements Shape, QuickImports {
         shader.getUniformOrDefault(name).set(colorCache[0], colorCache[1], colorCache[2], colorCache[3]);
     }
 }
+

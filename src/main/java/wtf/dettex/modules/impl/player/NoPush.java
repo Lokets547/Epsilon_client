@@ -1,6 +1,5 @@
 package wtf.dettex.modules.impl.player;
 
-import antidaunleak.api.annotation.Native;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minecraft.block.Block;
@@ -39,3 +38,4 @@ public class NoPush extends Module {
         else if (block.equals(Blocks.SWEET_BERRY_BUSH)) e.setCancelled(ignoreSetting.isSelected("Berry"));
     }
 }
+

@@ -28,3 +28,4 @@ public enum BlockESPDataType implements IDatatypeFor<Block> {
         return Main.getInstance().getBoxESPRepository().blocks.keySet().stream().toList();
     }
 }
+

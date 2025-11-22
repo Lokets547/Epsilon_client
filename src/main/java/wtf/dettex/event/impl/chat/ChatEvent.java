@@ -14,3 +14,4 @@ import wtf.dettex.event.events.callables.EventCancellable;
 public class ChatEvent extends EventCancellable {
     String message;
 }
+

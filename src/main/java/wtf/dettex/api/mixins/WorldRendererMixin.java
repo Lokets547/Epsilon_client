@@ -19,3 +19,4 @@ public abstract class WorldRendererMixin {
         this.renderMain(frameGraphBuilder, frustum, camera, positionMatrix, projectionMatrix, fog, !BlockHighLight.getInstance().isState(), hasEntitiesToRender, renderTickCounter, profiler);
     }
 }
+

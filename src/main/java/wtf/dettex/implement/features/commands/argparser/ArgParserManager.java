@@ -88,3 +88,4 @@ public enum ArgParserManager implements IArgParserManager {
         return this.registry;
     }
 }
+

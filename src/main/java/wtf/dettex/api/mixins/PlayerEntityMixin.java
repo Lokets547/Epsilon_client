@@ -42,3 +42,4 @@ public abstract class PlayerEntityMixin implements QuickImports {
         return event.getVector();
     }
 }
+

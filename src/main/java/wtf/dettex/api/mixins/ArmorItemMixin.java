@@ -36,3 +36,4 @@ public abstract class ArmorItemMixin implements IArmorItem {
         return type;
     }
 }
+

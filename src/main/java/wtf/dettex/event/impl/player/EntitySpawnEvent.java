@@ -15,3 +15,4 @@ import wtf.dettex.event.events.callables.EventCancellable;
 public class EntitySpawnEvent extends EventCancellable {
     Entity entity;
 }
+

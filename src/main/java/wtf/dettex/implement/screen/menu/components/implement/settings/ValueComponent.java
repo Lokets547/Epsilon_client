@@ -102,3 +102,4 @@ public class ValueComponent extends AbstractSettingComponent {
         }
     }
 }
+

@@ -111,3 +111,4 @@ public class Module extends SettingRepository implements QuickImports {
     public void deactivate() {
     }
 }
+

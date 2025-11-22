@@ -20,3 +20,4 @@ public abstract class WorldMixin implements QuickImports {
         EventManager.callEvent(new BlockUpdateEvent(newBlock, pos.toImmutable(), BlockUpdateEvent.Type.UPDATE));
     }
 }
+
